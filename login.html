@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title id="title"></title>
+    <title id="title">Login Page</title>
     <meta
       name="viewport"
       content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"
@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="logo.ico" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="d3.v3.min.js"></script>
     <script type="text/javascript" src="data.js"></script>
@@ -23,7 +23,7 @@
         <center>
           <img
             src="img/logo.png"
-            alt="kemangi 41"
+            alt="MS Radius"
             style="border-radius: 5px; width: 200px; height: auto"
           /><br />
         </center>
@@ -338,14 +338,26 @@
             async function doRegisterMember(event) {
               event.preventDefault();
 
+              // Ambil semua nilai dari form
               const nama = document.getElementById("name").value.trim();
+              const phone = document.getElementById("phone").value.trim();
               const whatsapp = document.getElementById("whatsapp").value.trim();
               const email = document.getElementById("email").value.trim();
               const alamat = document.getElementById("address").value.trim();
+              const note = document.getElementById("note").value.trim();
+              const profile_id =
+                document.getElementById("evoucher-dropdown").value;
 
-              // Validasi tambahan (jika perlu)
-              if (!nama || !whatsapp || !alamat) {
-                alert("Harap isi semua field!");
+              // Validasi
+              if (
+                !nama ||
+                !phone ||
+                !whatsapp ||
+                !alamat ||
+                !note ||
+                !profile_id
+              ) {
+                alert("Harap isi semua field dan pilih paket eVoucher!");
                 return false;
               }
 
@@ -357,7 +369,15 @@
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ nama, whatsapp, email, alamat }),
+                    body: JSON.stringify({
+                      nama,
+                      phone,
+                      whatsapp,
+                      email,
+                      alamat,
+                      note,
+                      profile_id, // kirim hanya ID-nya
+                    }),
                   }
                 );
 
@@ -365,10 +385,8 @@
 
                 if (response.ok) {
                   alert("Pendaftaran berhasil! Silakan login.");
-                  // Reset form jika perlu
                   document.forms["registerMember"].reset();
-                  // Arahkan ke tab login kalau mau
-                  document.getElementById("userpass").click();
+                  document.getElementById("userpass").click(); // arahkan ke login
                 } else {
                   alert(
                     "Gagal daftar: " + (result.message || "Terjadi kesalahan")
@@ -379,13 +397,54 @@
                 alert("Terjadi kesalahan saat mengirim data.");
               }
 
+              // Debug (optional)
               console.log("Data yang dikirim:");
-              console.log("Nama:", nama);
-              console.log("Whatsapp:", whatsapp);
-              console.log("Email:", email);
-              console.log("Alamat:", alamat);
+              console.log({
+                nama,
+                phone,
+                whatsapp,
+                email,
+                alamat,
+                note,
+                profile_id,
+              });
 
               return false;
+            }
+            async function loadProfiles() {
+              try {
+                const response = await fetch(
+                  "https://demo.msradius.com/api/evoucher"
+                );
+                if (response.ok) {
+                  const res = await response.json();
+                  const dropdown = document.getElementById("evoucher-dropdown");
+                  let options =
+                    '<option value="">Pilih Paket eVoucher</option>';
+
+                  res.data.forEach((element) => {
+                    options += `<option value="${element.id}">Paket ${
+                      element.profile_name
+                    } - Rp. ${element.price_sell.toLocaleString()}</option>`;
+                  });
+
+                  dropdown.innerHTML = options;
+
+                  // Optional: Tambahkan event listener jika perlu
+                  dropdown.addEventListener("change", function () {
+                    const selectedId = this.value;
+                    console.log("Selected eVoucher ID:", selectedId);
+                    // Bisa tambahkan aksi lanjut di sini
+                  });
+                } else {
+                  console.error(
+                    "Gagal fetch e-voucher untuk dropdown:",
+                    response.status
+                  );
+                }
+              } catch (error) {
+                console.error("Error fetching profiles for dropdown:", error);
+              }
             }
           </script>
           <form
@@ -401,8 +460,15 @@
             </div>
 
             <div style="margin-bottom: 10px">
+              <label for="phone" style="display: block; margin-bottom: 5px"
+                >Nomor HP</label
+              >
+              <input id="phone" name="phone" type="text" required />
+            </div>
+
+            <div style="margin-bottom: 10px">
               <label for="whatsapp" style="display: block; margin-bottom: 5px"
-                >Nomor WhatsApp</label
+                >Nomor Whatsapp</label
               >
               <input id="whatsapp" name="whatsapp" type="text" required />
             </div>
@@ -425,6 +491,28 @@
                 required
                 style="height: auto; resize: none"
               ></textarea>
+            </div>
+
+            <div style="margin-bottom: 10px">
+              <label for="notes" style="display: block; margin-bottom: 5px"
+                >Notes</label
+              >
+              <textarea
+                id="note"
+                name="note"
+                rows="2"
+                required
+                style="height: auto; resize: none"
+              ></textarea>
+            </div>
+
+            <div style="margin-bottom: 10px">
+              <label for="notes" style="display: block; margin-bottom: 5px"
+                >Paket</label
+              >
+              <select id="evoucher-dropdown">
+                <option value="">Pilih Paket eVoucher</option>
+              </select>
             </div>
 
             <input
@@ -554,7 +642,10 @@
             }
           }
 
-          window.onload = loadEvouchers;
+          window.addEventListener("load", function () {
+            loadProfiles();
+            loadEvouchers();
+          });
         </script>
         <!-- LIST EVOUCHER END -->
       </div>
@@ -635,7 +726,6 @@
         window.location.href = "./login#cekuser";
       } else {
       }
-      document.getElementById("title1").innerHTML = mydatat[0].title1;
 
       document.getElementById("title").innerHTML = mydata[0].nama;
       document.getElementById("copyright").innerHTML = mydata[4].copyright;
