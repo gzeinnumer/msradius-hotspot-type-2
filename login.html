@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title id="title"></title>
+    <title id="title">Login Page</title>
     <meta
       name="viewport"
       content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"
@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="expires" content="-1" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="logo.ico" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="d3.v3.min.js"></script>
     <script type="text/javascript" src="data.js"></script>
@@ -23,7 +23,7 @@
         <center>
           <img
             src="img/logo.png"
-            alt="kemangi 41"
+            alt="MS Radius"
             style="border-radius: 5px; width: 200px; height: auto"
           /><br />
         </center>
@@ -31,14 +31,14 @@
         <div class="tab">
           <button
             class="tablinks"
-            onclick="openLogin(event, 'KV')"
+            onclick="openLogin(event, 'HS')"
             id="kodevoucher"
           >
             Voucher
           </button>
           <button
             class="tablinks"
-            onclick="openLogin(event, 'UP')"
+            onclick="openLogin(event, 'HSM')"
             id="userpass"
           >
             Member
@@ -53,9 +53,9 @@
         </div>
 
         <!-- Login 1 kolom-->
-        <div id="KV" class="tabcontent">
+        <div id="HS" class="tabcontent">
           $(if chap-id)
-          <form name="sendinkv" action="$(link-login-only)" method="post">
+          <form name="sendinhs" action="$(link-login-only)" method="post">
             <input type="hidden" name="username" />
             <input type="hidden" name="password" />
             <input type="hidden" name="dst" value="$(link-orig)" />
@@ -63,15 +63,63 @@
           </form>
           <script type="text/javascript" src="/md5.js"></script>
           <script type="text/javascript">
-            function doLoginkv() {
-              document.sendinkv.username.value =
-                document.loginkv.usernamekv.value;
-              document.sendinkv.password.value = hexMD5(
+            function doLoginhs() {
+              document.sendinhs.username.value =
+                document.loginhs.usernamehs.value;
+              document.sendinhs.password.value = hexMD5(
                 "$(chap-id)" +
-                  document.loginkv.passwordkv.value +
+                  document.loginhs.passwordhs.value +
                   "$(chap-challenge)"
               );
-              document.sendinkv.submit();
+              document.sendinhs.submit();
+              return false;
+            }
+            async function doReset() {
+              console.log("Do Reset");
+              const username = document.loginhs.usernamehs.value.trim();
+              const messageEl = document.getElementById("resetMessage");
+
+              messageEl.textContent = "";
+              messageEl.style.color = "";
+
+              if (!username) {
+                messageEl.textContent = "Silakan isi username terlebih dahulu.";
+                messageEl.style.color = "red";
+                return false;
+              }
+
+              try {
+                const response = await fetch(
+                  "https://demo.msradius.com/api/optimizeusername?unique=" +
+                    encodeURIComponent(username),
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+
+                if (response.ok) {
+                  const result = await response.json();
+                  if (result.code == 200) {
+                    messageEl.textContent =
+                      "Optimize successful! Please try login again.";
+                    messageEl.style.color = "green";
+                  } else {
+                    messageEl.textContent = "Failed to optimize.";
+                    messageEl.style.color = "red";
+                  }
+                } else {
+                  messageEl.textContent = "Failed to optimize.";
+                  messageEl.style.color = "red";
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                messageEl.textContent = "An error occurred. Please try again.";
+                messageEl.style.color = "red";
+              }
+
               return false;
             }
           </script>
@@ -88,19 +136,19 @@
               </div>
               <form
                 autocomplete="off"
-                name="loginkv"
+                name="loginhs"
                 action="$(link-login-only)"
                 method="post"
                 $(if
                 chap-id)
-                onSubmit="return doLoginkv()"
+                onSubmit="return doLoginhs()"
                 $(endif)
               >
                 <input type="hidden" name="dst" value="$(link-orig)" />
                 <input type="hidden" name="popup" value="true" />
                 <input
                   id="user"
-                  name="usernamekv"
+                  name="usernamehs"
                   type="text"
                   placeholder="Voucher"
                   onchange="updateInput(this.value)"
@@ -108,11 +156,36 @@
                 />
                 <input
                   id="pass"
-                  name="passwordkv"
+                  name="passwordhs"
                   placeholder="Password"
                   type="hidden"
                 />
-                <input type="submit" class="buttona" value=" Login " />
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    margin-top: 20px;
+                  "
+                >
+                  <button type="submit" class="buttona">Login</button>
+                  <button
+                    type="button"
+                    class="buttona"
+                    onclick="return doReset()"
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                <div
+                  id="resetMessage"
+                  style="
+                    margin-top: 10px;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                ></div>
               </form>
             </center>
             <script type="text/javascript">
@@ -124,7 +197,7 @@
         </div>
 
         <!-- Login 2 kolom -->
-        <div id="UP" class="tabcontent">
+        <div id="HSM" class="tabcontent">
           $(if chap-id)
           <form name="sendinup" action="$(link-login-only)" method="post">
             <input type="hidden" name="username" />
@@ -143,6 +216,54 @@
                   "$(chap-challenge)"
               );
               document.sendinup.submit();
+              return false;
+            }
+            async function doResetMember() {
+              console.log("Do Reset");
+              const username = document.loginup.usernameup.value.trim();
+              const messageEl = document.getElementById("resetMessageUp");
+
+              messageEl.textContent = "";
+              messageEl.style.color = "";
+
+              if (!username) {
+                messageEl.textContent = "Silakan isi username terlebih dahulu.";
+                messageEl.style.color = "red";
+                return false;
+              }
+
+              try {
+                const response = await fetch(
+                  "https://demo.msradius.com/api/optimizeusername?unique=" +
+                    encodeURIComponent(username),
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+
+                if (response.ok) {
+                  const result = await response.json();
+                  if (result.code == 200) {
+                    messageEl.textContent =
+                      "Optimize successful! Please try login again.";
+                    messageEl.style.color = "green";
+                  } else {
+                    messageEl.textContent = "Failed to optimize.";
+                    messageEl.style.color = "red";
+                  }
+                } else {
+                  messageEl.textContent = "Failed to optimize.";
+                  messageEl.style.color = "red";
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                messageEl.textContent = "An error occurred. Please try again.";
+                messageEl.style.color = "red";
+              }
+
               return false;
             }
           </script>
@@ -180,26 +301,63 @@
                   type="password"
                   placeholder="Password"
                 />
-                <input type="submit" class="buttona" value=" Login " />
+
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    margin-top: 20px;
+                  "
+                >
+                  <button type="submit" class="buttona">Login</button>
+                  <button
+                    type="button"
+                    class="buttona"
+                    onclick="return doResetMember()"
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                <div
+                  id="resetMessageUp"
+                  style="
+                    margin-top: 10px;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                ></div>
               </form>
             </center>
           </div>
         </div>
-        <!-- Form Daftar Member -->
         <!-- Form Daftar Member -->
         <div id="REGIS" class="tabcontent">
           <script>
             async function doRegisterMember(event) {
               event.preventDefault();
 
+              // Ambil semua nilai dari form
               const nama = document.getElementById("name").value.trim();
+              const phone = document.getElementById("phone").value.trim();
               const whatsapp = document.getElementById("whatsapp").value.trim();
               const email = document.getElementById("email").value.trim();
               const alamat = document.getElementById("address").value.trim();
+              const note = document.getElementById("note").value.trim();
+              const profile_id =
+                document.getElementById("evoucher-dropdown").value;
 
-              // Validasi tambahan (jika perlu)
-              if (!nama || !whatsapp || !alamat) {
-                alert("Harap isi semua field!");
+              // Validasi
+              if (
+                !nama ||
+                !phone ||
+                !whatsapp ||
+                !alamat ||
+                !note ||
+                !profile_id
+              ) {
+                alert("Harap isi semua field dan pilih paket eVoucher!");
                 return false;
               }
 
@@ -211,7 +369,15 @@
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ nama, whatsapp, email, alamat }),
+                    body: JSON.stringify({
+                      nama,
+                      phone,
+                      whatsapp,
+                      email,
+                      alamat,
+                      note,
+                      profile_id, // kirim hanya ID-nya
+                    }),
                   }
                 );
 
@@ -219,10 +385,8 @@
 
                 if (response.ok) {
                   alert("Pendaftaran berhasil! Silakan login.");
-                  // Reset form jika perlu
                   document.forms["registerMember"].reset();
-                  // Arahkan ke tab login kalau mau
-                  document.getElementById("userpass").click();
+                  document.getElementById("userpass").click(); // arahkan ke login
                 } else {
                   alert(
                     "Gagal daftar: " + (result.message || "Terjadi kesalahan")
@@ -233,13 +397,54 @@
                 alert("Terjadi kesalahan saat mengirim data.");
               }
 
+              // Debug (optional)
               console.log("Data yang dikirim:");
-              console.log("Nama:", nama);
-              console.log("Whatsapp:", whatsapp);
-              console.log("Email:", email);
-              console.log("Alamat:", alamat);
+              console.log({
+                nama,
+                phone,
+                whatsapp,
+                email,
+                alamat,
+                note,
+                profile_id,
+              });
 
               return false;
+            }
+            async function loadProfiles() {
+              try {
+                const response = await fetch(
+                  "https://demo.msradius.com/api/evoucher"
+                );
+                if (response.ok) {
+                  const res = await response.json();
+                  const dropdown = document.getElementById("evoucher-dropdown");
+                  let options =
+                    '<option value="">Pilih Paket eVoucher</option>';
+
+                  res.data.forEach((element) => {
+                    options += `<option value="${element.id}">Paket ${
+                      element.profile_name
+                    } - Rp. ${element.price_sell.toLocaleString()}</option>`;
+                  });
+
+                  dropdown.innerHTML = options;
+
+                  // Optional: Tambahkan event listener jika perlu
+                  dropdown.addEventListener("change", function () {
+                    const selectedId = this.value;
+                    console.log("Selected eVoucher ID:", selectedId);
+                    // Bisa tambahkan aksi lanjut di sini
+                  });
+                } else {
+                  console.error(
+                    "Gagal fetch e-voucher untuk dropdown:",
+                    response.status
+                  );
+                }
+              } catch (error) {
+                console.error("Error fetching profiles for dropdown:", error);
+              }
             }
           </script>
           <form
@@ -255,8 +460,15 @@
             </div>
 
             <div style="margin-bottom: 10px">
+              <label for="phone" style="display: block; margin-bottom: 5px"
+                >Nomor HP</label
+              >
+              <input id="phone" name="phone" type="text" required />
+            </div>
+
+            <div style="margin-bottom: 10px">
               <label for="whatsapp" style="display: block; margin-bottom: 5px"
-                >Nomor WhatsApp</label
+                >Nomor Whatsapp</label
               >
               <input id="whatsapp" name="whatsapp" type="text" required />
             </div>
@@ -279,6 +491,28 @@
                 required
                 style="height: auto; resize: none"
               ></textarea>
+            </div>
+
+            <div style="margin-bottom: 10px">
+              <label for="notes" style="display: block; margin-bottom: 5px"
+                >Notes</label
+              >
+              <textarea
+                id="note"
+                name="note"
+                rows="2"
+                required
+                style="height: auto; resize: none"
+              ></textarea>
+            </div>
+
+            <div style="margin-bottom: 10px">
+              <label for="notes" style="display: block; margin-bottom: 5px"
+                >Paket</label
+              >
+              <select id="evoucher-dropdown">
+                <option value="">Pilih Paket eVoucher</option>
+              </select>
             </div>
 
             <input
@@ -343,7 +577,7 @@
 
       <div class="middle">
         <!-- LIST EVOUCHER START -->
-        <p class="info">Buy Evoucher</p>
+        <p class="info">Beli Evoucher</p>
         <div id="evoucher-list" class="evoucher-list"></div>
 
         <script>
@@ -408,7 +642,10 @@
             }
           }
 
-          window.onload = loadEvouchers;
+          window.addEventListener("load", function () {
+            loadProfiles();
+            loadEvouchers();
+          });
         </script>
         <!-- LIST EVOUCHER END -->
       </div>
@@ -489,7 +726,6 @@
         window.location.href = "./login#cekuser";
       } else {
       }
-      document.getElementById("title1").innerHTML = mydatat[0].title1;
 
       document.getElementById("title").innerHTML = mydata[0].nama;
       document.getElementById("copyright").innerHTML = mydata[4].copyright;
