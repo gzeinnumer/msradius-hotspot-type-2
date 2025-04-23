@@ -18,12 +18,13 @@ body {
 
 p {
   margin-bottom: 5px;
+  margin-top: 5px;
   line-height: 1.5em;
 }
 
 h3 {
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-bottom: 1px solid #aaa;
 }
 
@@ -92,7 +93,6 @@ h3 {
 }
 .left img {
   max-width: 100%;
-  margin-top: 20px;
   height: auto;
   display: block;
 }
@@ -165,6 +165,11 @@ select {
   width: 90%;
   height: 30px;
 }
+.full-width-input {
+  width: 100%;
+  height: 35px;
+  box-sizing: border-box;
+}
 
 .buttona {
   background-color: #008cca;
@@ -178,6 +183,7 @@ select {
   font-weight: bold;
   margin: 10px 1px;
   height: 35px;
+  width: 100%;
   cursor: pointer;
 }
 .buttona:hover {
@@ -399,8 +405,8 @@ table.tpaketwifi tr:nth-child(even) {
   font-size: 14px;
   transition: 0.3s ease;
   border-radius: 8px;
-  margin-bottom: 8px;
-  margin-top: 8px;
+  margin-bottom: -8px;
+  margin-top: 15px;
   font-weight: bold;
 }
 
@@ -436,6 +442,8 @@ table.tpaketwifi tr:nth-child(even) {
   font-weight: bold;
   font-size: 16px;
   text-align: center;
+  margin-bottom: -5px;
+  margin-top: -5px;
   width: auto;
 }
 

@@ -1,4 +1,4 @@
-data = '[{"nama" : "Kemangi 41"}, {"alamat" : "Jl. Tanah Merah IV Gang Kemangi No. 41"}, {"phone" : "082212345678"}, {"keterangan" : "Voucher Kemangi 41 bisa di beli di gang Kemangi No.41 atau gang Kluweh No.19 (Rosi)"}, {"copyright" : "2018 by Laksamadi Guko"}, {"masaaktif" : ""}, {"trial" : "Coba Gratis"}, {"notifikasi" : "Internet dalam perbaikan."}]';
+data = '[{"nama" : "MSRadius Hotspot"}, {"alamat" : "Jl. Tanah Merah IV Gang Kemangi No. 41"}, {"phone" : "082212345678"}, {"keterangan" : "Voucher Kemangi 41 bisa di beli di gang Kemangi No.41 atau gang Kluweh No.19 (Rosi)"}, {"copyright" : "2025 by Chairul Rahman"}, {"masaaktif" : ""}, {"trial" : "Coba Gratis"}, {"notifikasi" : "Internet dalam perbaikan."}]';
 
 datatitle = '[{"title1" : "Paket Wifi"}, {"title2" : "Voucher"},{"title3" : "Alamat"}, {"title4" : "Kontak"}, {"title5" : "Peringatan"}, {"title6" : "Expired"}]';
 
