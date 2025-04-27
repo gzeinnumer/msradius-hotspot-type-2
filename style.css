@@ -392,10 +392,23 @@ table.tpaketwifi tr:nth-child(even) {
     float: none;
   }
 }
+.evoucher-list {
+	padding: 0 0 10px 0 ;
+}
 
+:root {
+  --primary-color: #008cca;
+  --primary-hover: #249fd8;
+  --white-color: #fff;
+  --text-dark: #3e4d59;
+  --text-default: #333;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Accordion */
 .accordion {
-  background-color: #008cca;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--white-color);
   cursor: pointer;
   padding: 16px 20px;
   width: 100%;
@@ -413,32 +426,35 @@ table.tpaketwifi tr:nth-child(even) {
 .accordion:hover,
 .accordion.active {
   margin-bottom: -5px;
-  background-color: #249fd8;
+  background-color: var(--primary-hover);
 }
 
+/* Panel */
 .panel {
-  padding: 0 20px;
+  padding: 0 5px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  border-left: 2px solid #249fd8;
-  border-right: 2px solid #249fd8;
-  border-bottom: 2px solid #249fd8;
+  border-left: 2px solid var(--primary-hover);
+  border-right: 2px solid var(--primary-hover);
+  border-bottom: 2px solid var(--primary-hover);
   border-radius: 0 0 8px 8px;
 }
 
+/* Voucher Card */
 .voucher-card {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 20px;
   margin-bottom: 8px;
-  background: #fff;
+  background: var(--white-color);
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px var(--shadow-color);
 }
+
 .info {
-  color: #3e4d59;
+  color: var(--text-dark);
   font-weight: bold;
   font-size: 16px;
   text-align: center;
@@ -454,7 +470,7 @@ table.tpaketwifi tr:nth-child(even) {
 .voucher-title {
   margin: 0;
   font-size: 18px;
-  color: #008cca;
+  color: var(--primary-color);
   margin-bottom: 10px;
 }
 
@@ -467,7 +483,7 @@ table.tpaketwifi tr:nth-child(even) {
 .voucher-list li {
   margin-bottom: 6px;
   font-size: 14px;
-  color: #333;
+  color: var(--text-default);
 }
 
 .voucher-action {
@@ -475,8 +491,8 @@ table.tpaketwifi tr:nth-child(even) {
 }
 
 .btn-buy {
-  background-color: #008cca;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--white-color);
   padding: 10px 16px;
   text-decoration: none;
   border-radius: 6px;
@@ -485,5 +501,6 @@ table.tpaketwifi tr:nth-child(even) {
 }
 
 .btn-buy:hover {
-  background-color: #249fd8;
+  background-color: var(--primary-hover);
 }
+

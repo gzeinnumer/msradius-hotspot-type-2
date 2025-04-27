@@ -1,83 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title id="title">Login Page</title>
-    <meta
-      name="viewport"
-      content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"
-    />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="expires" content="-1" />
-    <link rel="icon" href="logo.ico" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="d3.v3.min.js"></script>
-    <script type="text/javascript" src="data.js"></script>
-  </head>
-  <body class="bg">
-    <div class="container">
-      <div class="notif" id="notifikasi"></div>
-      <!-- .notif-->
+<head>
+<title id="title"></title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="d3.v3.min.js"></script>
+<script type="text/javascript" src="data.js"></script>
 
-      <div class="left">
-        <div style="display: flex; flex-direction: column; align-items: center">
-          <img
-            src="img/logo.png"
-            alt="MS Radius"
-            style="border-radius: 5px; width: 200px"
-          />
-          <p style="text-align: center">Selamat datang di MSRadius Hotspot</p>
-        </div>
+</head>
+<body class="bg">
 
-        <div class="tab">
-          <button
-            class="tablinks"
-            onclick="openLogin(event, 'HS')"
-            id="kodevoucher"
-          >
-            Voucher
-          </button>
-          <button
-            class="tablinks"
-            onclick="openLogin(event, 'HSM')"
-            id="userpass"
-          >
-            Member
-          </button>
-          <button
-            class="tablinks"
-            onclick="openLogin(event, 'RG-BILLING')"
-            id="daftarmember"
-          >
-            Daftar Billing
-          </button>
-        </div>
+<div class="container">
 
-        <!-- Login 1 kolom-->
-        <div id="HS" class="tabcontent">
-          $(if chap-id)
-          <form name="sendinhs" action="$(link-login-only)" method="post">
-            <input type="hidden" name="username" />
-            <input type="hidden" name="password" />
-            <input type="hidden" name="dst" value="$(link-orig)" />
-            <input type="hidden" name="popup" value="true" />
-          </form>
-          <script type="text/javascript" src="/md5.js"></script>
-          <script type="text/javascript">
-            function doLoginhs() {
-              document.sendinhs.username.value =
-                document.loginhs.usernamehs.value;
-              document.sendinhs.password.value = hexMD5(
-                "$(chap-id)" +
-                  document.loginhs.passwordhs.value +
-                  "$(chap-challenge)"
-              );
-              document.sendinhs.submit();
-              return false;
-            }
-            async function doReset() {
+  <div class="notif" id="notifikasi">
+
+  </div> <!-- .notif-->
+
+		<div class="left">
+		  <center><img src="img/logo.png" alt="kemangi 41" style="border-radius: 5px; width:200px; height:auto;"/><br></center>
+		  <h3></h3>
+		  <div class="tab">
+		    <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
+	      <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
+          <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarmember">Daftar Billing</button>
+	    </div>
+	    
+<!-- Login 1 kolom-->
+      <div id="KV" class="tabcontent">
+        $(if chap-id)
+        <form name="sendinkv" action="$(link-login-only)" method="post">
+          <input type="hidden" name="username" />
+          <input type="hidden" name="password" />
+          <input type="hidden" name="dst" value="$(link-orig)" />
+          <input type="hidden" name="popup" value="true" />
+        </form>
+        <script type="text/javascript" src="/md5.js"></script>
+        <script type="text/javascript">
+          function doLoginkv() {
+            document.sendinkv.username.value = document.loginkv.usernamekv.value;
+            document.sendinkv.password.value = hexMD5('$(chap-id)' + document.loginkv.passwordkv.value + '$(chap-challenge)');
+            document.sendinkv.submit();
+            return false;
+          }
+		  async function doReset() {
               console.log("Do Reset");
-              const username = document.loginhs.usernamehs.value.trim();
+              const username = document.loginkv.usernamekv.value.trim();
               const messageEl = document.getElementById("resetMessage");
 
               messageEl.textContent = "";
@@ -91,7 +62,7 @@
 
               try {
                 const response = await fetch(
-                  "https://demo.msradius.com/api/optimizeusername?unique=" +
+                  "https://dev.msradius.com/api/optimizeusername?unique=" +
                     encodeURIComponent(username),
                   {
                     method: "GET",
@@ -104,8 +75,7 @@
                 if (response.ok) {
                   const result = await response.json();
                   if (result.code == 200) {
-                    messageEl.textContent =
-                      "Optimize successful! Please try login again.";
+                    messageEl.textContent = "Optimize successful! Please try login again.";
                     messageEl.style.color = "green";
                   } else {
                     messageEl.textContent = "Failed to optimize.";
@@ -123,104 +93,51 @@
 
               return false;
             }
-          </script>
-          $(endif)
-          <div>
-            <center>
-              <div style="padding-top: 10px; padding-bottom: 10px">
-                $(if trial == 'yes')<a
-                  id="trial1"
-                  class="a"
-                  href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"
-                ></a
-                >$(endif)
-              </div>
-              <form
-                autocomplete="off"
-                name="loginhs"
-                action="$(link-login-only)"
-                method="post"
-                $(if
-                chap-id)
-                onSubmit="return doLoginhs()"
-                $(endif)
-              >
-                <input type="hidden" name="dst" value="$(link-orig)" />
-                <input type="hidden" name="popup" value="true" />
-                <input
-                  id="user"
-                  name="usernamehs"
-                  type="text"
-                  placeholder="Voucher"
-                  onchange="updateInput(this.value)"
-                  value="$(username)"
-                />
-                <input
-                  id="pass"
-                  name="passwordhs"
-                  placeholder="Password"
-                  type="hidden"
-                />
-                <div
-                  style="
-                    display: flex;
-                    justify-content: center;
-                    gap: 5px;
-                    margin-top: 20px;
-                  "
-                >
-                  <button type="submit" class="buttona">Login</button>
-                  <button
-                    type="button"
-                    class="buttona"
-                    onclick="return doReset()"
-                  >
-                    Reset
-                  </button>
-                </div>
-
-                <div
-                  id="resetMessage"
-                  style="
-                    margin-top: 10px;
-                    font-weight: bold;
-                    text-align: center;
-                  "
-                ></div>
-              </form>
-            </center>
-            <script type="text/javascript">
-              function updateInput(passwd) {
-                document.getElementById("pass").value = passwd;
-              }
-            </script>
-          </div>
-        </div>
-
-        <!-- Login 2 kolom -->
-        <div id="HSM" class="tabcontent">
-          $(if chap-id)
-          <form name="sendinup" action="$(link-login-only)" method="post">
-            <input type="hidden" name="username" />
-            <input type="hidden" name="password" />
+        </script>
+        $(endif)
+        <div>
+          <center>
+          <div style="padding-top:10px;padding-bottom:10px;">$(if trial == 'yes')<a id="trial1" class="a" href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"></a>$(endif)</div>
+          <form autocomplete="off" name="loginkv" action="$(link-login-only)" method="post"
+          $(if chap-id) onSubmit="return doLoginkv()" $(endif)>
             <input type="hidden" name="dst" value="$(link-orig)" />
             <input type="hidden" name="popup" value="true" />
-          </form>
-          <script type="text/javascript" src="/md5.js"></script>
-          <script type="text/javascript">
-            function doLoginup() {
-              document.sendinup.username.value =
-                document.loginup.usernameup.value;
-              document.sendinup.password.value = hexMD5(
-                "$(chap-id)" +
-                  document.loginup.passwordup.value +
-                  "$(chap-challenge)"
-              );
-              document.sendinup.submit();
-              return false;
-            }
-            async function doResetMember() {
-              console.log("Do Reset");
+            <input id="user" name="usernamekv" type="text" placeholder="Voucher" onchange="updateInput(this.value)" value="$(username)"/>
+            <input id="pass" name="passwordkv" placeholder="Password" type="hidden"/>
+			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
+				<input type="submit" class="buttona" value="Login" />
+				<input type="button" class="buttona" value="Reset" onclick="return doReset()" />
+            </div>
+			<div id="resetMessage" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
+            </form>
+            </center>
+            <script type="text/javascript">
+              function updateInput(passwd){
+              document.getElementById("pass").value = passwd;
+              }
+            </script>
+        </div>
+      </div>
+        
+<!-- Login 2 kolom -->
+      <div id="UP" class="tabcontent">
+        $(if chap-id)
+        <form name="sendinup" action="$(link-login-only)" method="post">
+          <input type="hidden" name="username" />
+          <input type="hidden" name="password" />
+          <input type="hidden" name="dst" value="$(link-orig)" />
+          <input type="hidden" name="popup" value="true" />
+        </form>
+        <script type="text/javascript" src="/md5.js"></script>
+        <script type="text/javascript">
+          function doLoginup() {
+            document.sendinup.username.value = document.loginup.usernameup.value;
+            document.sendinup.password.value = hexMD5('$(chap-id)' + document.loginup.passwordup.value + '$(chap-challenge)');
+            document.sendinup.submit();
+            return false;
+          }
+		  async function doResetMember() {
+              console.log("Do doResetMember");
               const username = document.loginup.usernameup.value.trim();
               const messageEl = document.getElementById("resetMessageUp");
 
@@ -267,76 +184,30 @@
 
               return false;
             }
-          </script>
-          $(endif)
-          <div>
-            <center>
-              <div style="padding-top: 10px; padding-bottom: 10px">
-                $(if trial == 'yes')<a
-                  id="trial2"
-                  class="a"
-                  href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"
-                ></a
-                >$(endif)
-              </div>
-              <form
-                autocomplete="off"
-                name="loginup"
-                action="$(link-login-only)"
-                method="post"
-                $(if
-                chap-id)
-                onSubmit="return doLoginup()"
-                $(endif)
-              >
-                <input type="hidden" name="dst" value="$(link-orig)" />
-                <input type="hidden" name="popup" value="true" />
-                <input
-                  name="usernameup"
-                  type="text"
-                  placeholder="Username"
-                  value="$(username)"
-                />
-                <input
-                  name="passwordup"
-                  type="password"
-                  placeholder="Password"
-                />
-
-                <div
-                  style="
-                    display: flex;
-                    justify-content: center;
-                    gap: 5px;
-                    margin-top: 20px;
-                  "
-                >
-                  <button type="submit" class="buttona">Login</button>
-                  <button
-                    type="button"
-                    class="buttona"
-                    onclick="return doResetMember()"
-                  >
-                    Reset
-                  </button>
-                </div>
-
-                <div
-                  id="resetMessageUp"
-                  style="
-                    margin-top: 10px;
-                    font-weight: bold;
-                    text-align: center;
-                  "
-                ></div>
-              </form>
+          
+        </script>
+        $(endif)
+        <div>
+          <center>
+          <div style="padding-top:10px;padding-bottom:10px;">$(if trial == 'yes')<a id="trial2" class="a" href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"></a>$(endif)</div>
+            <form autocomplete="off" name="loginup" action="$(link-login-only)" method="post"
+            $(if chap-id) onSubmit="return doLoginup()" $(endif)>
+              <input type="hidden" name="dst" value="$(link-orig)" />
+              <input type="hidden" name="popup" value="true" />
+              <input  name="usernameup" type="text" placeholder="Username" value="$(username)"/>
+              <input  name="passwordup" type="password" placeholder="Password"/>
+			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
+				<input type="submit" class="buttona" value="Login" />
+				<input type="button" class="buttona" value="Reset" onclick="return doReset()" />
+            </div>
+			<div id="resetMessageUp" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
+            </form>
             </center>
-          </div>
         </div>
-        <!-- Form Daftar Billing -->
-
-        <div id="RG-BILLING" class="tabcontent">
-          <script>
+      </div>
+      
+      <div id="RG-BILLING" class="tabcontent">
+		<script>
             async function doRegisterBilling(event) {
               event.preventDefault();
 
@@ -423,15 +294,13 @@
               return false;
             }
             async function loadProfiles() {
+			  console.log("Do loadProfiles");
               try {
-                const response = await fetch(
-                  "https://demo.msradius.com/api/evoucher"
-                );
+                const response = await fetch("https://dev.msradius.com/api/evoucher");
                 if (response.ok) {
                   const res = await response.json();
-                  const dropdown = document.getElementById("evoucher-dropdown");
-                  let options =
-                    '<option value="">Pilih Paket eVoucher</option>';
+                  const dropdown = document.getElementById("packet_billing_dropdown");
+                  let options = '<option value="">Pilih Paket eVoucher</option>';
 
                   res.data.forEach((element) => {
                     options += `<option value="${element.id}">Paket ${
@@ -457,11 +326,15 @@
                 console.error("Error fetching profiles for dropdown:", error);
               }
             }
-          </script>
+            window.addEventListener("load", function () {
+            loadProfiles();
+            loadProfilesHSM();
+            loadEvouchers();
+          });
+		  </script>
           <div class="form-wrapper" style="width: 100%; margin-top: 10px">
             <form
               name="registerMember"
-              onsubmit="return doRegisterBilling(event)"
               style="width: 100%"
             >
               <div style="margin-bottom: 10px">
@@ -586,69 +459,53 @@
               />
             </form>
           </div>
+      </div>
+	  <div id="cekuser" class="modal-window">
+        <div>
+          <a style="font-weight:bold;" href="#" title="Close" class="modal-close">X</a>
+        <h1 id="title5"></h1>
+        <p id="notiferr"></p>
         </div>
-
-        <div id="cekuser" class="modal-window">
-          <div>
-            <a
-              style="font-weight: bold"
-              href="#"
-              title="Close"
-              class="modal-close"
-              >X</a
-            >
-            <h1 id="title5"></h1>
-            <p id="notiferr"></p>
-          </div>
+      </div>
+      <div id="expired" class="modal-window">
+        <div>
+          <a style="font-weight:bold;" href="#" title="Close" class="modal-close">X</a>
+        <h1 id="title6"></h1>
+        <p id="notifexp"></p>
         </div>
-        <div id="expired" class="modal-window">
-          <div>
-            <a
-              style="font-weight: bold"
-              href="#"
-              title="Close"
-              class="modal-close"
-              >X</a
-            >
-            <h1 id="title6"></h1>
-            <p id="notifexp"></p>
-          </div>
-        </div>
-
-        <script>
-          function openLogin(evt, loginName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-              tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-              tablinks[i].className = tablinks[i].className.replace(
-                " active",
-                ""
-              );
-            }
-            document.getElementById(loginName).style.display = "block";
-            evt.currentTarget.className += " active";
-          }
-
-          // Get the element with id="defaultOpen" and click on it
-          document.getElementById("kodevoucher").click();
-        </script>
-        <img src="img/bw.png" class="img-responsive" />
       </div>
 
+<script>
+function openLogin(evt, loginName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(loginName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("kodevoucher").click();
+</script>
+		</div>
+		
       <div class="middle">
         <!-- LIST EVOUCHER START -->
         <p class="info">Beli EVoucher</p>
         <div id="evoucher-list" class="evoucher-list"></div>
-
         <script>
+
           async function loadEvouchers() {
+		  
             try {
               const response = await fetch(
-                "https://demo.msradius.com/api/evoucher"
+                "https://dev.msradius.com/api/evoucher"
               );
               if (response.ok) {
                 const res = await response.json();
@@ -658,9 +515,7 @@
                 for (let index = 0; index < res.data.length; index++) {
                   const element = res.data[index];
                   v += `
-  <button class="accordion acc-bg1">
-    Paket ${element.profile_name} - Rp. ${element.price_sell.toLocaleString()}
-  </button>
+  <button class="accordion acc-bg1"> Paket ${element.profile_name} - Rp. ${element.price_sell.toLocaleString()} </button>
   <div class="panel">
     <div class="voucher-card">
       <div class="voucher-info">
@@ -672,7 +527,7 @@
         </ul>
       </div>
       <div class="voucher-action">
-        <a href="https://demo.msradius.com/store?unique=${
+        <a href="https://dev.msradius.com/store?unique=${
           element.id
         }" class="btn-buy" target="_blank">Beli Sekarang</a>
       </div>
@@ -706,15 +561,10 @@
             }
           }
 
-          window.addEventListener("load", function () {
-            loadProfiles();
-            loadEvouchers();
-            loadProfilesHSM();
-          });
         </script>
         <!-- LIST EVOUCHER END -->
-      </div>
-
+		</div> <!-- .middle -->
+		
       <div id="REGIS-MEMBER" class="middle">
         <script>
           async function doRegisterMember(event) {
@@ -920,66 +770,73 @@
         document.getElementById("keterangan").innerHTML = mydata[3].keterangan;
       </script>
 
-      <div class="footer">
-        <i>Copyright &copy; <i id="copyright"></i></i><br />
-        <i>Powered by <a href="https://laksa19.github.io">MSRadius</a></i>
-        <!-- Tolong jangan dihilangkan bagian ini-->
-      </div>
-    </div>
-    <script type="text/javascript">
-      var mydata = JSON.parse(data);
-      var mydatat = JSON.parse(datatitle);
-      var mydataerr = JSON.parse(dataerr);
-      var error = "$(error)";
-      if (error == "user $(username) has reached uptime limit") {
-        document.getElementById("title6").innerHTML = mydatat[5].title6;
-        document.getElementById("notifexp").innerHTML = mydataerr[0].expired;
-        window.location.href = "./login#expired";
-      } else if (error == "session limit reached ($(error-orig))") {
-        document.getElementById("title6").innerHTML = mydatat[5].title6;
-        document.getElementById("notifexp").innerHTML = mydataerr[0].expired;
-        window.location.href = "./login#expired";
-      } else if (error == "user $(username) has reached traffic limit") {
-        document.getElementById("title6").innerHTML = mydatat[5].title6;
-        document.getElementById("notifexp").innerHTML = mydataerr[0].expired;
-        window.location.href = "./login#expired";
-      } else if (error == "invalid username or password") {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML =
-          mydataerr[1].invaliduser;
-        window.location.href = "./login#cekuser";
-      } else if (
-        error == "auth-in-progress = already authorizing, retry later"
-      ) {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML = mydataerr[2].sudahlogin;
-        window.location.href = "./login#cekuser";
-      } else if (error == "no more sessions are allowed for user $(username)") {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML = mydataerr[2].sudahlogin;
-        window.location.href = "./login#cekuser";
-      } else if (
-        error == "invalid username ($(username)): this MAC address is not yours"
-      ) {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML = mydataerr[3].ilegal;
-        window.location.href = "./login#cekuser";
-      } else if (error == "you are not logged in (ip $(ip))") {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML = mydataerr[3].ilegal;
-        window.location.href = "./login#cekuser";
-      } else if (error == "RADIUS server is not responding") {
-        document.getElementById("title5").innerHTML = mydatat[4].title5;
-        document.getElementById("notiferr").innerHTML = mydataerr[3].radius;
-        window.location.href = "./login#cekuser";
-      } else {
-      }
-
+	<div class="footer">
+	  <i>Copyright &copy; <i id="copyright"></i></i><br>
+	  <i>Powered by <a href="https://msradius.com">MSRadius</a></i>
+	</div>
+ 
+</div>
+      <script  type="text/javascript" >
+          var mydata = JSON.parse(data);
+          var mydatat = JSON.parse(datatitle);
+          var mydataerr = JSON.parse(dataerr);
+          var error = "$(error)";
+              if (error == "user $(username) has reached uptime limit") {
+                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
+                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
+                window.location.href = "./login#expired";
+                
+              } else if (error == "session limit reached ($(error-orig))") {
+                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
+                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
+                window.location.href = "./login#expired";
+                
+              } else if (error == "user $(username) has reached traffic limit") {
+                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
+                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
+                window.location.href = "./login#expired";
+                
+              } else if (error == "invalid username or password") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[1].invaliduser ;
+                window.location.href = "./login#cekuser";
+                
+              } else if (error == "auth-in-progress = already authorizing, retry later") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
+                window.location.href = "./login#cekuser";
+                
+              } else if (error == "no more sessions are allowed for user $(username)") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
+                window.location.href = "./login#cekuser";
+                
+              } else if (error == "invalid username ($(username)): this MAC address is not yours") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
+                window.location.href = "./login#cekuser";
+                
+              } else if (error == "you are not logged in (ip $(ip))") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
+                window.location.href = "./login#cekuser";
+                
+              } else if (error == "RADIUS server is not responding") {
+                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
+                document.getElementById('notiferr').innerHTML = mydataerr[3].radius ;
+                window.location.href = "./login#cekuser";
+                
+              } else {
+                
+                
+              }
+       
       document.getElementById("title").innerHTML = mydata[0].nama;
       document.getElementById("copyright").innerHTML = mydata[4].copyright;
       document.getElementById("trial1").innerHTML = mydata[6].trial;
       document.getElementById("trial2").innerHTML = mydata[6].trial;
-      document.getElementById("notifikasi").innerHTML = mydata[7].notifikasi;
-    </script>
-  </body>
+      //document.getElementById("notifikasi").innerHTML = mydata[7].notifikasi;
+        
+      </script>
+</body>
 </html>
