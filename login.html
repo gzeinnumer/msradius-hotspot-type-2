@@ -14,7 +14,7 @@
 </head>
 <body class="bg">
 
-<div class="container">
+<div class="container" style="text-align: center;">
 
   <div class="notif" id="notifikasi">
 
@@ -28,7 +28,7 @@
 	      <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
           <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarmember">Daftar Billing</button>
 	    </div>
-	    
+
 <!-- Login 1 kolom-->
       <div id="KV" class="tabcontent">
         $(if chap-id)
@@ -62,7 +62,7 @@
 
               try {
                 const response = await fetch(
-                  "https://dev.msradius.com/api/optimizeusername?unique=" +
+                  base_url+"/api/optimizeusername?unique=" +
                     encodeURIComponent(username),
                   {
                     method: "GET",
@@ -113,12 +113,12 @@
             </center>
             <script type="text/javascript">
               function updateInput(passwd){
-              document.getElementById("pass").value = passwd;
+                document.getElementById("pass").value = passwd;
               }
             </script>
         </div>
       </div>
-        
+
 <!-- Login 2 kolom -->
       <div id="UP" class="tabcontent">
         $(if chap-id)
@@ -152,7 +152,7 @@
 
               try {
                 const response = await fetch(
-                  "https://demo.msradius.com/api/optimizeusername?unique=" +
+                  base_url+"/api/optimizeusername?unique=" +
                     encodeURIComponent(username),
                   {
                     method: "GET",
@@ -184,7 +184,7 @@
 
               return false;
             }
-          
+
         </script>
         $(endif)
         <div>
@@ -205,7 +205,7 @@
             </center>
         </div>
       </div>
-      
+
       <div id="RG-BILLING" class="tabcontent">
 		<script>
             async function doRegisterBilling(event) {
@@ -245,7 +245,7 @@
 
               try {
                 const response = await fetch(
-                  "https://demo.msradius.com/api/daftar-billing",
+                  base_url+"/api/daftar-billing",
                   {
                     method: "POST",
                     headers: {
@@ -296,7 +296,7 @@
             async function loadProfiles() {
 			  console.log("Do loadProfiles");
               try {
-                const response = await fetch("https://dev.msradius.com/api/evoucher");
+                const response = await fetch(base_url+"/api/evoucher");
                 if (response.ok) {
                   const res = await response.json();
                   const dropdown = document.getElementById("packet_billing_dropdown");
@@ -328,135 +328,50 @@
             }
             window.addEventListener("load", function () {
             loadProfiles();
-            loadProfilesHSM();
             loadEvouchers();
           });
 		  </script>
           <div class="form-wrapper" style="width: 100%; margin-top: 10px">
-            <form
-              name="registerMember"
-              style="width: 100%"
-            >
+            <form name="registerMember" style="width: 100%" >
               <div style="margin-bottom: 10px">
-                <label
-                  for="name_billing"
-                  style="display: block; margin-bottom: 5px"
-                >
+                <label for="name_billing" style="display: block; margin-bottom: 5px" >
                   Nama Lengkap
                 </label>
-                <input
-                  id="name_billing"
-                  name="name_billing"
-                  type="text"
-                  required
-                  class="full-width-input"
-                />
+                <input id="name_billing" name="name_billing" type="text" required class="full-width-input" />
               </div>
               <div style="margin-bottom: 10px">
-                <label
-                  for="phone_billing"
-                  style="display: block; margin-bottom: 5px"
-                  >Nomor HP</label
-                >
-                <input
-                  id="phone_billing"
-                  name="phone_billing"
-                  type="text"
-                  required
-                  class="full-width-input"
-                />
+                <label for="phone_billing" style="display: block; margin-bottom: 5px" >Nomor HP</label>
+                <input id="phone_billing" name="phone_billing" type="text" required class="full-width-input" />
               </div>
 
               <div style="margin-bottom: 10px">
-                <label
-                  for="whatsapp_billing"
-                  style="display: block; margin-bottom: 5px"
-                  >Nomor Whatsapp</label
-                >
-                <input
-                  id="whatsapp_billing"
-                  name="whatsapp_billing"
-                  type="text"
-                  required
-                  class="full-width-input"
-                />
+                <label for="whatsapp_billing" style="display: block; margin-bottom: 5px" >Nomor Whatsapp</label>
+                <input id="whatsapp_billing" name="whatsapp_billing" type="text" required class="full-width-input"/>
               </div>
 
               <div style="margin-bottom: 10px">
-                <label
-                  for="email_billing"
-                  style="display: block; margin-bottom: 5px"
-                  >Email</label
-                >
-                <input
-                  id="email_billing"
-                  name="email_billing"
-                  type="text"
-                  required
-                  class="full-width-input"
-                />
+                <label for="email_billing" style="display: block; margin-bottom: 5px">Email</label>
+                <input id="email_billing" name="email_billing" type="text" required class="full-width-input" />
               </div>
 
               <div style="margin-bottom: 10px">
-                <label
-                  for="address_billing"
-                  style="display: block; margin-bottom: 5px"
-                  >Alamat Lengkap</label
-                >
-                <textarea
-                  id="address_billing"
-                  name="address_billing"
-                  rows="3"
-                  required
-                  style="
-                    height: auto;
-                    resize: none;
-                    width: 100%;
-                    box-sizing: border-box;
-                  "
-                ></textarea>
+                <label for="address_billing" style="display: block; margin-bottom: 5px">Alamat Lengkap</label>
+                <textarea id="address_billing" name="address_billing" rows="3" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
               </div>
 
               <div style="margin-bottom: 10px">
-                <label
-                  for="note_billing"
-                  style="display: block; margin-bottom: 5px"
-                  >Notes</label
-                >
-                <textarea
-                  id="note_billing"
-                  name="note_billing"
-                  rows="2"
-                  required
-                  style="
-                    height: auto;
-                    resize: none;
-                    width: 100%;
-                    box-sizing: border-box;
-                  "
-                ></textarea>
+                <label for="note_billing" style="display: block; margin-bottom: 5px">Notes</label>
+                <textarea id="note_billing" name="note_billing" rows="2" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
               </div>
 
               <div style="margin-bottom: 10px">
-                <label
-                  for="packet_billing_dropdown"
-                  style="display: block; margin-bottom: 5px"
-                  >Paket</label
-                >
-                <select
-                  id="packet_billing_dropdown"
-                  style="height: 35px; width: 100%; box-sizing: border-box"
-                >
+                <label for="packet_billing_dropdown" style="display: block; margin-bottom: 5px">Paket</label>
+                <select id="packet_billing_dropdown" style="height: 35px; width: 100%; box-sizing: border-box">
                   <option value="">Pilih Paket eVoucher</option>
                 </select>
               </div>
 
-              <input
-                type="submit"
-                class="buttona"
-                value="Daftar Sekarang"
-                style="width: 100%"
-              />
+              <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
             </form>
           </div>
       </div>
@@ -494,7 +409,7 @@ function openLogin(evt, loginName) {
 document.getElementById("kodevoucher").click();
 </script>
 		</div>
-		
+
       <div class="middle">
         <!-- LIST EVOUCHER START -->
         <p class="info">Beli EVoucher</p>
@@ -502,10 +417,10 @@ document.getElementById("kodevoucher").click();
         <script>
 
           async function loadEvouchers() {
-		  
+
             try {
               const response = await fetch(
-                "https://dev.msradius.com/api/evoucher"
+                base_url+"/api/evoucher"
               );
               if (response.ok) {
                 const res = await response.json();
@@ -527,7 +442,7 @@ document.getElementById("kodevoucher").click();
         </ul>
       </div>
       <div class="voucher-action">
-        <a href="https://dev.msradius.com/store?unique=${
+        <a href="`+base_url+`/store?unique=${
           element.id
         }" class="btn-buy" target="_blank">Beli Sekarang</a>
       </div>
@@ -564,7 +479,7 @@ document.getElementById("kodevoucher").click();
         </script>
         <!-- LIST EVOUCHER END -->
 		</div> <!-- .middle -->
-		
+
       <div id="REGIS-MEMBER" class="middle">
         <script>
           async function doRegisterMember(event) {
@@ -578,19 +493,16 @@ document.getElementById("kodevoucher").click();
             const alamat = document
               .getElementById("address_member")
               .value.trim();
-            const profile_id = document.getElementById(
-              "packet_hsm_dropdown"
-            ).value;
 
             // Validasi
-            if (!nama || !whatsapp || !alamat || !profile_id) {
+            if (!nama || !whatsapp || !alamat) {
               alert("Harap isi semua field dan pilih paket Hotspot Member!");
               return false;
             }
 
             try {
               const response = await fetch(
-                "https://demo.msradius.com/api/daftar-member",
+                base_url+"/api/daftar-member",
                 {
                   method: "POST",
                   headers: {
@@ -632,149 +544,56 @@ document.getElementById("kodevoucher").click();
 
             return false;
           }
-          async function loadProfilesHSM() {
-            try {
-              const response = await fetch(
-                "https://demo.msradius.com/api/evoucher"
-              );
-              if (response.ok) {
-                const res = await response.json();
-                const dropdown = document.getElementById("packet_hsm_dropdown");
-                let options = '<option value="">Pilih Paket Member</option>';
 
-                res.data.forEach((element) => {
-                  options += `<option value="${element.id}">Paket ${
-                    element.profile_name
-                  } - Rp. ${element.price_sell.toLocaleString()}</option>`;
-                });
-
-                dropdown.innerHTML = options;
-
-                // Optional: Tambahkan event listener jika perlu
-                dropdown.addEventListener("change", function () {
-                  const selectedId = this.value;
-                  console.log("Selected eVoucher ID:", selectedId);
-                  // Bisa tambahkan aksi lanjut di sini
-                });
-              } else {
-                console.error(
-                  "Gagal fetch e-voucher untuk dropdown:",
-                  response.status
-                );
-              }
-            } catch (error) {
-              console.error("Error fetching profiles for dropdown:", error);
-            }
-          }
         </script>
-        <p class="info">Daftar Member</p>
+        <p class="info">Daftar Membership</p>
         <div class="form-wrapper" style="width: 100%; margin-top: 10px">
-          <form
-            name="formRegisterMember"
-            onsubmit="return doRegisterMember(event)"
-            style="width: 100%"
-          >
+          <form name="formRegisterMember" onsubmit="return doRegisterMember(event)" style="width: 100%" >
             <div style="margin-bottom: 10px">
-              <label
-                for="name_member"
-                style="display: block; margin-bottom: 5px"
-              >
+              <label for="name_member" style="display: block; margin-bottom: 5px">
                 Nama Lengkap
               </label>
-              <input
-                id="name_member"
-                name="name_member"
-                type="text"
-                required
-                class="full-width-input"
-              />
+              <input id="name_member" name="name_member" type="text" required class="full-width-input"/>
             </div>
 
             <div style="margin-bottom: 10px">
-              <label
-                for="whatsapp_member"
-                style="display: block; margin-bottom: 5px"
-                >Whatsapp</label
-              >
-              <input
-                id="whatsapp_member"
-                name="whatsapp_member"
-                type="text"
-                required
-                class="full-width-input"
-              />
+              <label for="whatsapp_member" style="display: block; margin-bottom: 5px">Whatsapp</label>
+              <input id="whatsapp_member" name="whatsapp_member" type="text" required class="full-width-input"/>
             </div>
 
             <div style="margin-bottom: 10px">
-              <label
-                for="address_member"
-                style="display: block; margin-bottom: 5px"
-                >Alamat</label
-              >
-              <textarea
-                id="address_member"
-                name="address_member"
-                rows="3"
-                required
-                style="
-                  height: auto;
-                  resize: none;
-                  width: 100%;
-                  box-sizing: border-box;
-                "
-              ></textarea>
+              <label for="address_member" style="display: block; margin-bottom: 5px" >Alamat</label>
+              <textarea id="address_member" name="address_member" rows="3" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
             </div>
 
-            <div style="margin-bottom: 10px">
-              <label
-                for="packet_hsm_dropdown"
-                style="display: block; margin-bottom: 5px"
-                >Paket</label
-              >
-              <select
-                id="packet_hsm_dropdown"
-                style="height: 35px; width: 100%; box-sizing: border-box"
-              >
-                <option value="">Pilih Paket Member</option>
-              </select>
-            </div>
-
-            <input
-              type="submit"
-              class="buttona"
-              value="Daftar Sekarang"
-              style="width: 100%"
-            />
+            <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
           </form>
+          <h3 id="title2"></h3>
+          <p id="keterangan"></p>
+          <h3 id="title3"></h3>
+          <p id="alamat"></p>
+          <h3 id="title4"></h3>
+          <p id="phone-off"></p>
         </div>
       </div>
       <!-- .middle -->
 
-      <div class="right">
-        <h3 id="title2"></h3>
-        <p id="keterangan"></p>
-        <h3 id="title3"></h3>
-        <p id="alamat"></p>
-        <h3 id="title4"></h3>
-        <p id="phone-off"></p>
-      </div>
-      <script>
-        var mydata = JSON.parse(data);
-        var mydatat = JSON.parse(datatitle);
-
-        document.getElementById("title2").innerHTML = mydatat[1].title2;
-        document.getElementById("title3").innerHTML = mydatat[2].title3;
-        document.getElementById("title4").innerHTML = mydatat[3].title4;
-        document.getElementById("alamat").innerHTML = mydata[1].alamat;
-        document.getElementById("phone-off").innerHTML = mydata[2].phone;
-        document.getElementById("keterangan").innerHTML = mydata[3].keterangan;
-      </script>
-
-	<div class="footer">
+	<div class="footer" style="color: white;">
 	  <i>Copyright &copy; <i id="copyright"></i></i><br>
 	  <i>Powered by <a href="https://msradius.com">MSRadius</a></i>
 	</div>
- 
+
+  <script>
+    var mydata = JSON.parse(data);
+    var mydatat = JSON.parse(datatitle);
+
+    document.getElementById("title2").innerHTML = mydatat[1].title2;
+    document.getElementById("title3").innerHTML = mydatat[2].title3;
+    document.getElementById("title4").innerHTML = mydatat[3].title4;
+    document.getElementById("alamat").innerHTML = mydata[1].alamat;
+    document.getElementById("phone-off").innerHTML = mydata[2].phone;
+    document.getElementById("keterangan").innerHTML = mydata[3].keterangan;
+  </script>
 </div>
       <script  type="text/javascript" >
           var mydata = JSON.parse(data);
@@ -785,58 +604,58 @@ document.getElementById("kodevoucher").click();
                 document.getElementById('title6').innerHTML = mydatat[5].title6 ;
                 document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
                 window.location.href = "./login#expired";
-                
+
               } else if (error == "session limit reached ($(error-orig))") {
                 document.getElementById('title6').innerHTML = mydatat[5].title6 ;
                 document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
                 window.location.href = "./login#expired";
-                
+
               } else if (error == "user $(username) has reached traffic limit") {
                 document.getElementById('title6').innerHTML = mydatat[5].title6 ;
                 document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
                 window.location.href = "./login#expired";
-                
+
               } else if (error == "invalid username or password") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[1].invaliduser ;
                 window.location.href = "./login#cekuser";
-                
+
               } else if (error == "auth-in-progress = already authorizing, retry later") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
                 window.location.href = "./login#cekuser";
-                
+
               } else if (error == "no more sessions are allowed for user $(username)") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
                 window.location.href = "./login#cekuser";
-                
+
               } else if (error == "invalid username ($(username)): this MAC address is not yours") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
                 window.location.href = "./login#cekuser";
-                
+
               } else if (error == "you are not logged in (ip $(ip))") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
                 window.location.href = "./login#cekuser";
-                
+
               } else if (error == "RADIUS server is not responding") {
                 document.getElementById('title5').innerHTML = mydatat[4].title5 ;
                 document.getElementById('notiferr').innerHTML = mydataerr[3].radius ;
                 window.location.href = "./login#cekuser";
-                
+
               } else {
-                
-                
+
+
               }
-       
+
       document.getElementById("title").innerHTML = mydata[0].nama;
       document.getElementById("copyright").innerHTML = mydata[4].copyright;
       document.getElementById("trial1").innerHTML = mydata[6].trial;
       document.getElementById("trial2").innerHTML = mydata[6].trial;
       //document.getElementById("notifikasi").innerHTML = mydata[7].notifikasi;
-        
+
       </script>
 </body>
 </html>
