@@ -21,5 +21,3 @@ invaliduser = "Kode Voucher atau User yang Anda masukkan tidak sesuai. Silahkan 
 sudahlogin = "User yang Anda masukkan sudah login, Anda tidak dapat login untuk yang kedua kalinya. Silahkan tunggu 2 menit Kode Voucher atau User Anda akan logout secara otomatis. Jika tidak, maka kemungkinan besar Kode Voucher atau User Anda digunakan oleh orang lain. Jagalah kerahasiaan Kode Voucher atau User Anda!";
 ilegal = "Anda tidak bisa login menggunakan device ini. Silahkan gunakan device yang terdaftar.";
 radius = "RADIUS server tidak merespon.";
-
-base_url = "https://demo.msradius.com";
