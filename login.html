@@ -584,78 +584,63 @@ document.getElementById("kodevoucher").click();
 	</div>
 
   <script>
-    var mydata = JSON.parse(data);
-    var mydatat = JSON.parse(datatitle);
-
-    document.getElementById("title2").innerHTML = mydatat[1].title2;
-    document.getElementById("title3").innerHTML = mydatat[2].title3;
-    document.getElementById("title4").innerHTML = mydatat[3].title4;
-    document.getElementById("alamat").innerHTML = mydata[1].alamat;
-    document.getElementById("phone-off").innerHTML = mydata[2].phone;
-    document.getElementById("keterangan").innerHTML = mydata[3].keterangan;
+  document.getElementById("title2").innerHTML = title2;
+  document.getElementById("title3").innerHTML = title3;
+  document.getElementById("title4").innerHTML = title4;
+  document.getElementById("alamat").innerHTML = alamat;
+  document.getElementById("phone-off").innerHTML = phone;
+  document.getElementById("keterangan").innerHTML = keterangan;
   </script>
 </div>
-      <script  type="text/javascript" >
-          var mydata = JSON.parse(data);
-          var mydatat = JSON.parse(datatitle);
-          var mydataerr = JSON.parse(dataerr);
-          var error = "$(error)";
-              if (error == "user $(username) has reached uptime limit") {
-                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
-                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
-                window.location.href = "./login#expired";
+      <script src="data.js"></script> <!-- Panggil semua data variabel dari sini -->
+<script type="text/javascript">
+  var error = "$(error)";
 
-              } else if (error == "session limit reached ($(error-orig))") {
-                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
-                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
-                window.location.href = "./login#expired";
+  if (error == "user $(username) has reached uptime limit" ||
+      error == "session limit reached ($(error-orig))" ||
+      error == "user $(username) has reached traffic limit") {
 
-              } else if (error == "user $(username) has reached traffic limit") {
-                document.getElementById('title6').innerHTML = mydatat[5].title6 ;
-                document.getElementById('notifexp').innerHTML = mydataerr[0].expired ;
-                window.location.href = "./login#expired";
+      document.getElementById('title6').innerHTML = title6;
+      document.getElementById('notifexp').innerHTML = expired;
+      window.location.href = "./login#expired";
 
-              } else if (error == "invalid username or password") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[1].invaliduser ;
-                window.location.href = "./login#cekuser";
+  } else if (error == "invalid username or password") {
 
-              } else if (error == "auth-in-progress = already authorizing, retry later") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
-                window.location.href = "./login#cekuser";
+      document.getElementById('title5').innerHTML = title5;
+      document.getElementById('notiferr').innerHTML = invaliduser;
+      window.location.href = "./login#cekuser";
 
-              } else if (error == "no more sessions are allowed for user $(username)") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[2].sudahlogin ;
-                window.location.href = "./login#cekuser";
+  } else if (error == "auth-in-progress = already authorizing, retry later" ||
+             error == "no more sessions are allowed for user $(username)") {
 
-              } else if (error == "invalid username ($(username)): this MAC address is not yours") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
-                window.location.href = "./login#cekuser";
+      document.getElementById('title5').innerHTML = title5;
+      document.getElementById('notiferr').innerHTML = sudahlogin;
+      window.location.href = "./login#cekuser";
 
-              } else if (error == "you are not logged in (ip $(ip))") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[3].ilegal ;
-                window.location.href = "./login#cekuser";
+  } else if (error == "invalid username ($(username)): this MAC address is not yours" ||
+             error == "you are not logged in (ip $(ip))") {
 
-              } else if (error == "RADIUS server is not responding") {
-                document.getElementById('title5').innerHTML = mydatat[4].title5 ;
-                document.getElementById('notiferr').innerHTML = mydataerr[3].radius ;
-                window.location.href = "./login#cekuser";
+      document.getElementById('title5').innerHTML = title5;
+      document.getElementById('notiferr').innerHTML = ilegal;
+      window.location.href = "./login#cekuser";
 
-              } else {
+  } else if (error == "RADIUS server is not responding") {
 
+      document.getElementById('title5').innerHTML = title5;
+      document.getElementById('notiferr').innerHTML = radius;
+      window.location.href = "./login#cekuser";
 
-              }
+  } else {
+      // Tidak ada error tertentu, bisa kosong atau log
+  }
 
-      document.getElementById("title").innerHTML = mydata[0].nama;
-      document.getElementById("copyright").innerHTML = mydata[4].copyright;
-      document.getElementById("trial1").innerHTML = mydata[6].trial;
-      document.getElementById("trial2").innerHTML = mydata[6].trial;
-      //document.getElementById("notifikasi").innerHTML = mydata[7].notifikasi;
+  // Set elemen lain
+  document.getElementById("title").innerHTML = nama;
+  document.getElementById("copyright").innerHTML = copyright;
+  document.getElementById("trial1").innerHTML = trial;
+  document.getElementById("trial2").innerHTML = trial;
+  // document.getElementById("notifikasi").innerHTML = notifikasi;
+</script>
 
-      </script>
 </body>
 </html>
