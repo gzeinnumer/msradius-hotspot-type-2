@@ -6,13 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="expires" content="-1" />
-<link rel="icon" href="favicon.ico" />
+<link id="faviconLink" rel="icon" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="d3.v3.min.js"></script>
 <script type="text/javascript" src="data.js"></script>
 
 </head>
-<body class="bg">
+<body id="mainBody" class="bg">
 
 <div class="container" style="text-align: center;">
 
@@ -21,12 +21,12 @@
   </div> <!-- .notif-->
 
 		<div class="left">
-		  <center><img src="img/logo.png" alt="kemangi 41" style="border-radius: 5px; width:200px; height:auto;"/><br></center>
+		  <center><img id="logoImage" style="border-radius: 5px; width:200px; height:auto;" /></center>
 		  <h3></h3>
 		  <div class="tab">
 		    <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
 	      <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
-          <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarmember">Daftar Billing</button>
+          <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarBilling">Daftar Billing</button>
 	    </div>
 
 <!-- Login 1 kolom-->
@@ -326,10 +326,6 @@
                 console.error("Error fetching profiles for dropdown:", error);
               }
             }
-            window.addEventListener("load", function () {
-            loadProfiles();
-            loadEvouchers();
-          });
 		  </script>
           <div class="form-wrapper" style="width: 100%; margin-top: 10px">
             <form name="registerMember" style="width: 100%" >
@@ -410,7 +406,7 @@ document.getElementById("kodevoucher").click();
 </script>
 		</div>
 
-      <div class="middle">
+      <div class="middle" id="evoucherContainer">
         <!-- LIST EVOUCHER START -->
         <p class="info">Beli EVoucher</p>
         <div id="evoucher-list" class="evoucher-list"></div>
@@ -546,6 +542,7 @@ document.getElementById("kodevoucher").click();
           }
 
         </script>
+        <div id="memberContainer">
         <p class="info">Daftar Membership</p>
         <div class="form-wrapper" style="width: 100%; margin-top: 10px">
           <form name="formRegisterMember" onsubmit="return doRegisterMember(event)" style="width: 100%" >
@@ -568,13 +565,14 @@ document.getElementById("kodevoucher").click();
 
             <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
           </form>
+        </div>
+        </div>
           <h3 id="title2"></h3>
           <p id="keterangan"></p>
           <h3 id="title3"></h3>
           <p id="alamat"></p>
           <h3 id="title4"></h3>
           <p id="phone-off"></p>
-        </div>
       </div>
       <!-- .middle -->
 
@@ -640,6 +638,58 @@ document.getElementById("kodevoucher").click();
   document.getElementById("trial1").innerHTML = trial;
   document.getElementById("trial2").innerHTML = trial;
   // document.getElementById("notifikasi").innerHTML = notifikasi;
+
+  window.addEventListener("load", function () {
+const bodyElement = document.getElementById("mainBody");
+if (typeof background_url !== "undefined" && bodyElement) {
+  bodyElement.style.backgroundImage = `url('${background_url}')`;
+}
+    const faviconElement = document.getElementById("faviconLink");
+    if (typeof favicon_url !== "undefined" && faviconElement) {
+      faviconElement.href = favicon_url;
+    }
+
+  const logoImg = document.getElementById("logoImage");
+  if (typeof logo_url !== "undefined" && logoImg) {
+    logoImg.src = logo_url;
+  }
+  if (typeof nama !== "undefined" && logoImg) {
+    logoImg.alt = nama;
+  }
+
+  // Sembunyikan tombol Daftar Billing jika tidak diaktifkan
+  if (typeof aktifkan_daftar_billing !== "undefined") {
+    const daftarBillingBtn = document.getElementById("daftarBilling");
+    if (aktifkan_daftar_billing === "N") {
+      daftarBillingBtn.style.display = "none";
+    } else {
+      daftarBillingBtn.style.display = "inline-block";
+      loadProfiles();
+    }
+  }
+
+  // Sembunyikan evoucherContainer jika tidak diaktifkan
+  if (typeof aktifkan_evoucher !== "undefined") {
+    const evoucherContainer = document.getElementById("evoucherContainer");
+    if (aktifkan_evoucher === "N") {
+      evoucherContainer.style.display = "none";
+    } else {
+      evoucherContainer.style.display = "block";
+      loadEvouchers();
+    }
+  }
+
+  // Sembunyikan memberContainer jika tidak diaktifkan
+  if (typeof aktifkan_daftar_membership !== "undefined") {
+    const memberContainer = document.getElementById("memberContainer");
+    if (aktifkan_daftar_membership === "N") {
+      memberContainer.style.display = "none";
+    } else {
+      memberContainer.style.display = "block";
+    }
+  }
+});
+
 </script>
 
 </body>
