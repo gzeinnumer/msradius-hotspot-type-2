@@ -41,7 +41,7 @@ aktifkan_daftar_membership = "Y";
 aktifkan_daftar_billing = "Y";
 
 //Aktifkan NIK
-aktifkan_nik = "N";
+aktifkan_nik = "Y";
 
 //Aktifkan NPWP
-aktifkan_npwp = "N";
+aktifkan_npwp = "Y";

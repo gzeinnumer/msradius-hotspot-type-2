@@ -213,39 +213,46 @@
               event.preventDefault();
 
               // Ambil semua nilai dari form
-              const nama = document.getElementById("name_billing").value.trim();
-              const nik = parseInt(document.getElementById("nik_billing").value.trim()) || "";
-              const npwp = parseInt(document.getElementById("npwp_billing").value.trim()) || "";
-              const phone = parseInt(document.getElementById("phone_billing").value.trim()) || "";
-              const whatsapp = parseInt(document.getElementById("whatsapp_billing").value.trim()) || "";
-              const rawProfileId = document.getElementById("packet_billing_dropdown").value.trim();
-              const profile_id = rawProfileId === "" ? "" : parseInt(rawProfileId);
-              const email = document.getElementById("email_billing").value.trim();
-              const alamat = document.getElementById("address_billing").value.trim();
-              const note = document.getElementById("note_billing").value.trim();
+                const nama = document.getElementById("name_billing").value.trim();
+                const nikRaw = document.getElementById("nik_billing").value.trim();
+                const npwpRaw = document.getElementById("npwp_billing").value.trim();
+                const phoneRaw = document.getElementById("phone_billing").value.trim();
+                const whatsappRaw = document.getElementById("whatsapp_billing").value.trim();
+                const rawProfileId = document.getElementById("packet_billing_dropdown").value.trim();
+                const email = document.getElementById("email_billing").value.trim();
+                const alamat = document.getElementById("address_billing").value.trim();
+                const note = document.getElementById("note_billing").value.trim();
+
 
               // Validasi
               if (
                 !nama ||
-                profile_id === ""
+                rawProfileId === ""
               ) {
                 alert("Harap isi field nama dan pilih paket eVoucher!");
                 return false;
               }
               try {
-                const response = await fetch(
-                  base_url+"/api/candidate/register",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      nama,
-                      profile_id, // kirim hanya ID-nya
-                    }),
-                  }
-                );
+              // Bangun objek payload
+              const payload = {};
+              if (nama !== "") payload.nama = nama;
+              if (nikRaw !== "") payload.nik = parseInt(nikRaw);
+              if (npwpRaw !== "") payload.npwp = parseInt(npwpRaw);
+              if (phoneRaw !== "") payload.phone = parseInt(phoneRaw);
+              if (whatsappRaw !== "") payload.whatsapp = parseInt(whatsappRaw);
+              if (email !== "") payload.email = email;
+              if (alamat !== "") payload.alamat = alamat;
+              if (note !== "") payload.note = note;
+              if (rawProfileId !== "") payload.profile_id = parseInt(rawProfileId);
+
+              const response = await fetch(base_url + "/api/candidate/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+                });
+
 
                 const result = await response.json();
 
@@ -262,20 +269,6 @@
                 console.error("Error:", error);
                 alert("Terjadi kesalahan saat mengirim data.");
               }
-
-              // Debug (optional)
-              console.log("Data yang dikirim:");
-              console.log({
-                nama,
-                nik,
-                npwp,
-                phone,
-                whatsapp,
-                email,
-                alamat,
-                note,
-                profile_id,
-              });
 
               return false;
             }
@@ -481,9 +474,9 @@ document.getElementById("kodevoucher").click();
 
             // Ambil semua nilai dari form
             const nama = document.getElementById("name_member").value.trim();
-            const nik = parseInt(document.getElementById("nik_member").value.trim()) || 0;
-            const npwp = parseInt(document.getElementById("npwp_member").value.trim()) || 0;
-            const whatsapp = parseInt(document.getElementById("whatsapp_member").value.trim()) || 0;
+            const nikRaw = document.getElementById("nik_member").value.trim();
+            const npwpRaw = document.getElementById("npwp_member").value.trim();
+            const whatsappRaw = document.getElementById("whatsapp_member").value.trim();
             const alamat = document.getElementById("address_member").value.trim();
 
             // Validasi
@@ -493,6 +486,13 @@ document.getElementById("kodevoucher").click();
             }
 
             try {
+              const payload = {};
+              if (nama !== "") payload.nama = nama;
+              if (nikRaw !== "") payload.nik = parseInt(nikRaw);
+              if (npwpRaw !== "") payload.npwp = parseInt(npwpRaw);
+              if (whatsappRaw !== "") payload.whatsapp = parseInt(whatsappRaw);
+              if (alamat !== "") payload.alamat = alamat;
+
               const response = await fetch(
                 base_url+"/api/daftar-member",
                 {
@@ -500,13 +500,7 @@ document.getElementById("kodevoucher").click();
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({
-                    nama,
-                    nik,
-                    npwp,
-                    whatsapp,
-                    alamat
-                  }),
+                  body: JSON.stringify(payload),
                 }
               );
 
