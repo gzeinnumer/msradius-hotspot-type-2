@@ -209,43 +209,32 @@
       <div id="RG-BILLING" class="tabcontent">
 		<script>
             async function doRegisterBilling(event) {
+              console.log("Do RegisterBilling")
               event.preventDefault();
 
               // Ambil semua nilai dari form
               const nama = document.getElementById("name_billing").value.trim();
-              const phone = document
-                .getElementById("phone_billing")
-                .value.trim();
-              const whatsapp = document
-                .getElementById("whatsapp_billing")
-                .value.trim();
-              const email = document
-                .getElementById("email_billing")
-                .value.trim();
-              const alamat = document
-                .getElementById("address_billing")
-                .value.trim();
+              const nik = parseInt(document.getElementById("nik_billing").value.trim()) || "";
+              const npwp = parseInt(document.getElementById("npwp_billing").value.trim()) || "";
+              const phone = parseInt(document.getElementById("phone_billing").value.trim()) || "";
+              const whatsapp = parseInt(document.getElementById("whatsapp_billing").value.trim()) || "";
+              const rawProfileId = document.getElementById("packet_billing_dropdown").value.trim();
+              const profile_id = rawProfileId === "" ? "" : parseInt(rawProfileId);
+              const email = document.getElementById("email_billing").value.trim();
+              const alamat = document.getElementById("address_billing").value.trim();
               const note = document.getElementById("note_billing").value.trim();
-              const profile_id = document.getElementById(
-                "packet_billing_dropdown"
-              ).value;
 
               // Validasi
               if (
                 !nama ||
-                !phone ||
-                !whatsapp ||
-                !alamat ||
-                !note ||
-                !profile_id
+                profile_id === ""
               ) {
-                alert("Harap isi semua field dan pilih paket eVoucher!");
+                alert("Harap isi field nama dan pilih paket eVoucher!");
                 return false;
               }
-
               try {
                 const response = await fetch(
-                  base_url+"/api/daftar-billing",
+                  base_url+"/api/candidate/register",
                   {
                     method: "POST",
                     headers: {
@@ -253,11 +242,6 @@
                     },
                     body: JSON.stringify({
                       nama,
-                      phone,
-                      whatsapp,
-                      email,
-                      alamat,
-                      note,
                       profile_id, // kirim hanya ID-nya
                     }),
                   }
@@ -267,7 +251,7 @@
 
                 if (response.ok) {
                   alert("Pendaftaran berhasil! Silakan login.");
-                  document.forms["registerMember"].reset();
+                  document.forms["registerBilling"].reset();
                   document.getElementById("userpass").click(); // arahkan ke login
                 } else {
                   alert(
@@ -283,6 +267,8 @@
               console.log("Data yang dikirim:");
               console.log({
                 nama,
+                nik,
+                npwp,
                 phone,
                 whatsapp,
                 email,
@@ -328,36 +314,48 @@
             }
 		  </script>
           <div class="form-wrapper" style="width: 100%; margin-top: 10px">
-            <form name="registerMember" style="width: 100%" >
+            <form name="registerBilling" onsubmit="return doRegisterBilling(event)" style="width: 100%" >
               <div style="margin-bottom: 10px">
                 <label for="name_billing" style="display: block; margin-bottom: 5px" >
                   Nama Lengkap
                 </label>
                 <input id="name_billing" name="name_billing" type="text" required class="full-width-input" />
               </div>
+              <div id="nik_billing_container" style="margin-bottom: 10px">
+                <label for="nik_billing" style="display: block; margin-bottom: 5px" >
+                  NIK
+                </label>
+                <input id="nik_billing" name="nik_billing" type="number" class="full-width-input" placeholder="(boleh kosong)"/>
+              </div>
+              <div id="npwp_billing_container" style="margin-bottom: 10px">
+                <label for="npwp_billing" style="display: block; margin-bottom: 5px" >
+                  NPWP
+                </label>
+                <input id="npwp_billing" name="npwp_billing" type="number" class="full-width-input"  placeholder="(boleh kosong)"/>
+              </div>
               <div style="margin-bottom: 10px">
                 <label for="phone_billing" style="display: block; margin-bottom: 5px" >Nomor HP</label>
-                <input id="phone_billing" name="phone_billing" type="text" required class="full-width-input" />
+                <input id="phone_billing" name="phone_billing" type="number" class="full-width-input"  placeholder="(boleh kosong)"/>
               </div>
 
               <div style="margin-bottom: 10px">
                 <label for="whatsapp_billing" style="display: block; margin-bottom: 5px" >Nomor Whatsapp</label>
-                <input id="whatsapp_billing" name="whatsapp_billing" type="text" required class="full-width-input"/>
+                <input id="whatsapp_billing" name="whatsapp_billing" type="number" class="full-width-input" placeholder="(boleh kosong)"/>
               </div>
 
               <div style="margin-bottom: 10px">
                 <label for="email_billing" style="display: block; margin-bottom: 5px">Email</label>
-                <input id="email_billing" name="email_billing" type="text" required class="full-width-input" />
+                <input id="email_billing" name="email_billing" type="email" class="full-width-input"  placeholder="(boleh kosong)"/>
               </div>
 
               <div style="margin-bottom: 10px">
                 <label for="address_billing" style="display: block; margin-bottom: 5px">Alamat Lengkap</label>
-                <textarea id="address_billing" name="address_billing" rows="3" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
+                <textarea id="address_billing" name="address_billing" rows="3" style="height: auto; resize: none; width: 100%; box-sizing: border-box;"  placeholder="(boleh kosong)"></textarea>
               </div>
 
               <div style="margin-bottom: 10px">
                 <label for="note_billing" style="display: block; margin-bottom: 5px">Notes</label>
-                <textarea id="note_billing" name="note_billing" rows="2" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
+                <textarea id="note_billing" name="note_billing" rows="2" style="height: auto; resize: none; width: 100%; box-sizing: border-box;" placeholder="(boleh kosong)"></textarea>
               </div>
 
               <div style="margin-bottom: 10px">
@@ -483,16 +481,14 @@ document.getElementById("kodevoucher").click();
 
             // Ambil semua nilai dari form
             const nama = document.getElementById("name_member").value.trim();
-            const whatsapp = document
-              .getElementById("whatsapp_member")
-              .value.trim();
-            const alamat = document
-              .getElementById("address_member")
-              .value.trim();
+            const nik = parseInt(document.getElementById("nik_member").value.trim()) || 0;
+            const npwp = parseInt(document.getElementById("npwp_member").value.trim()) || 0;
+            const whatsapp = parseInt(document.getElementById("whatsapp_member").value.trim()) || 0;
+            const alamat = document.getElementById("address_member").value.trim();
 
             // Validasi
-            if (!nama || !whatsapp || !alamat) {
-              alert("Harap isi semua field dan pilih paket Hotspot Member!");
+            if (!nama) {
+              alert("Harap isi field nama!");
               return false;
             }
 
@@ -506,9 +502,10 @@ document.getElementById("kodevoucher").click();
                   },
                   body: JSON.stringify({
                     nama,
+                    nik,
+                    npwp,
                     whatsapp,
-                    alamat,
-                    profile_id, // kirim hanya ID-nya
+                    alamat
                   }),
                 }
               );
@@ -553,14 +550,27 @@ document.getElementById("kodevoucher").click();
               <input id="name_member" name="name_member" type="text" required class="full-width-input"/>
             </div>
 
+              <div id="nik_member_container" style="margin-bottom: 10px">
+                <label for="nik_member" style="display: block; margin-bottom: 5px" >
+                  NIK
+                </label>
+                <input id="nik_member" name="nik_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
+              </div>
+              <div id="npwp_member_container" style="margin-bottom: 10px">
+                <label for="npwp_member" style="display: block; margin-bottom: 5px" >
+                  NPWP
+                </label>
+                <input id="npwp_member" name="npwp_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
+              </div>
+
             <div style="margin-bottom: 10px">
               <label for="whatsapp_member" style="display: block; margin-bottom: 5px">Whatsapp</label>
-              <input id="whatsapp_member" name="whatsapp_member" type="text" required class="full-width-input"/>
+              <input id="whatsapp_member" name="whatsapp_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
             </div>
 
             <div style="margin-bottom: 10px">
               <label for="address_member" style="display: block; margin-bottom: 5px" >Alamat</label>
-              <textarea id="address_member" name="address_member" rows="3" required style="height: auto; resize: none; width: 100%; box-sizing: border-box;"></textarea>
+              <textarea id="address_member" name="address_member" rows="3" style="height: auto; resize: none; width: 100%; box-sizing: border-box;" placeholder="(boleh kosong)"></textarea>
             </div>
 
             <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
@@ -687,6 +697,26 @@ if (typeof background_url !== "undefined" && bodyElement) {
     } else {
       memberContainer.style.display = "block";
     }
+  }
+
+  const npwp_member_container = document.getElementById("npwp_member_container");
+  const npwp_billing_container = document.getElementById("npwp_billing_container");
+  if (aktifkan_npwp === "Y") {
+    npwp_member_container.style.display = "block";
+    npwp_billing_container.style.display = "block";
+  } else {
+    npwp_member_container.style.display = "none";
+    npwp_billing_container.style.display = "none";
+  }
+
+  const nik_member_container = document.getElementById("nik_member_container");
+  const nik_billing_container = document.getElementById("nik_billing_container");
+  if (aktifkan_nik === "Y") {
+    nik_member_container.style.display = "block";
+    nik_billing_container.style.display = "block";
+  } else {
+    nik_member_container.style.display = "none";
+    nik_billing_container.style.display = "none";
   }
 });
 

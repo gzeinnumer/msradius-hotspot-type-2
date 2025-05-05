@@ -1,4 +1,4 @@
-base_url = "https://demo.msradius.com";
+base_url = "https://dev.msradius.com";
 
 nama = "MSRadius Hotspot";
 alamat = "Jl. Tanah Merah IV Gang Kemangi No. 41";
@@ -39,3 +39,9 @@ aktifkan_daftar_membership = "Y";
 
 //Aktifkan Pendaftaran Billing
 aktifkan_daftar_billing = "Y";
+
+//Aktifkan NIK
+aktifkan_nik = "N";
+
+//Aktifkan NPWP
+aktifkan_npwp = "N";
