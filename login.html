@@ -214,6 +214,8 @@
 
               // Ambil semua nilai dari form
                 const nama = document.getElementById("name_billing").value.trim();
+                const username_client_area = document.getElementById("username_billing").value.trim();
+                const password_client_area = document.getElementById("password_billing").value.trim();
                 const nikRaw = document.getElementById("nik_billing").value.trim();
                 const npwpRaw = document.getElementById("npwp_billing").value.trim();
                 const phoneRaw = document.getElementById("phone_billing").value.trim();
@@ -226,7 +228,7 @@
 
               // Validasi
               if (
-                !nama ||
+                !nama || !username_client_area || !password_client_area ||
                 rawProfileId === ""
               ) {
                 alert("Harap isi field nama dan pilih paket eVoucher!");
@@ -236,6 +238,8 @@
               // Bangun objek payload
               const payload = {};
               if (nama !== "") payload.nama = nama;
+              if (username_client_area !== "") payload.username_client_area = username_client_area;
+              if (password_client_area !== "") payload.password_client_area = password_client_area;
               if (nikRaw !== "") payload.nik = parseInt(nikRaw);
               if (npwpRaw !== "") payload.npwp = parseInt(npwpRaw);
               if (phoneRaw !== "") payload.phone = parseInt(phoneRaw);
@@ -313,6 +317,18 @@
                   Nama Lengkap
                 </label>
                 <input id="name_billing" name="name_billing" type="text" required class="full-width-input" />
+              </div>
+              <div style="margin-bottom: 10px">
+                <label for="username_billing" style="display: block; margin-bottom: 5px" >
+                  Username
+                </label>
+                <input id="username_billing" name="username_billing" type="text" required class="full-width-input" />
+              </div>
+              <div style="margin-bottom: 10px">
+                <label for="password_billing" style="display: block; margin-bottom: 5px" >
+                  Password
+                </label>
+                <input id="password_billing" name="password_billing" type="text" required class="full-width-input" />
               </div>
               <div id="nik_billing_container" style="margin-bottom: 10px">
                 <label for="nik_billing" style="display: block; margin-bottom: 5px" >
