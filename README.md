@@ -41,14 +41,14 @@ background_url = "img/bg.jpg";
 aktifkan_evoucher = "Y";
 
 //Aktifkan Pendaftaran Membership
-aktifkan_daftar_membership = "Y";
+aktifkan_daftar_membership = "N";
 
 //Aktifkan Pendaftaran Billing
-aktifkan_daftar_billing = "Y";
+aktifkan_daftar_billing = "N";
 
 //Aktifkan NIK
-aktifkan_nik = "Y";
+aktifkan_nik = "N";
 
 //Aktifkan NPWP
-aktifkan_npwp = "Y";
+aktifkan_npwp = "N";
 ```
