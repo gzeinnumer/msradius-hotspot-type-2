@@ -279,11 +279,11 @@
             async function loadProfiles() {
 			  console.log("Do loadProfiles");
               try {
-                const response = await fetch(base_url+"/api/evoucher");
+                const response = await fetch(base_url+"/api/candidate/billinglist");
                 if (response.ok) {
                   const res = await response.json();
                   const dropdown = document.getElementById("packet_billing_dropdown");
-                  let options = '<option value="">Pilih Paket eVoucher</option>';
+                  let options = '<option value="">Pilih Paket</option>';
 
                   res.data.forEach((element) => {
                     options += `<option value="${element.id}">Paket ${
@@ -314,19 +314,19 @@
             <form name="registerBilling" onsubmit="return doRegisterBilling(event)" style="width: 100%" >
               <div style="margin-bottom: 10px">
                 <label for="name_billing" style="display: block; margin-bottom: 5px" >
-                  Nama Lengkap
+                  Nama Lengkap *
                 </label>
                 <input id="name_billing" name="name_billing" type="text" required class="full-width-input" />
               </div>
               <div style="margin-bottom: 10px">
                 <label for="username_billing" style="display: block; margin-bottom: 5px" >
-                  Username
+                  Username *
                 </label>
                 <input id="username_billing" name="username_billing" type="text" required class="full-width-input" />
               </div>
               <div style="margin-bottom: 10px">
                 <label for="password_billing" style="display: block; margin-bottom: 5px" >
-                  Password
+                  Password *
                 </label>
                 <input id="password_billing" name="password_billing" type="text" required class="full-width-input" />
               </div>
@@ -370,7 +370,7 @@
               <div style="margin-bottom: 10px">
                 <label for="packet_billing_dropdown" style="display: block; margin-bottom: 5px">Paket</label>
                 <select id="packet_billing_dropdown" style="height: 35px; width: 100%; box-sizing: border-box">
-                  <option value="">Pilih Paket eVoucher</option>
+                  <option value="">Pilih Paket</option>
                 </select>
               </div>
 
