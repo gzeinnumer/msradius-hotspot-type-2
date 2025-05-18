@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan QR Login</title>
+  <script src="html5-qrcode.min.js"></script>
+</head>
+<body>
+  <h2>Scan QR Code</h2>
+  <div id="reader" style="width:300px;"></div>
+
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+        try {
+            const url = new URL(decodedText);
+            const username = url.searchParams.get("username");
+            const password = url.searchParams.get("password");
+
+            console.log({ username, password });
+
+            // Contoh redirect ke login lokal:
+            window.location.href = `login.html?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+  } catch (error) {
+    console.error("Invalid URL:", error);
+  }
+    }
+
+
+    new Html5Qrcode("reader").start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      onScanSuccess
+    ).catch(err => {
+      console.error("Camera error:", err);
+    });
+  </script>
+</body>
+</html>

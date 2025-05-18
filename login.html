@@ -27,6 +27,7 @@
 		    <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
 	      <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
           <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarBilling">Daftar Billing</button>
+          <button id="qr" class="small-button" onclick="window.location='qr.html';">QR Code</button>
 	    </div>
 
 <!-- Login 1 kolom-->
@@ -430,7 +431,8 @@ document.getElementById("kodevoucher").click();
                 const evoucherList = document.getElementById("evoucher-list");
                 let v = "";
 
-                for (let index = 0; index < res.data.length; index++) {
+                //for (let index = 0; index < res.data.length; index++) {
+                for (let index = res.data.length - 1; index >= 0; index--) {
                   const element = res.data[index];
                   v += `
   <button class="accordion acc-bg1"> Paket ${element.profile_name} - Rp. ${element.price_sell.toLocaleString()} </button>
@@ -729,6 +731,17 @@ if (typeof background_url !== "undefined" && bodyElement) {
     nik_billing_container.style.display = "none";
   }
 });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const password = urlParams.get('password');
+
+    console.log({username, password});
+    if (username && password) {
+        document.loginkv.usernamekv.value = username;
+        document.loginkv.passwordkv.value = password;
+        // document.loginkv.submit();
+    }
 
 </script>
 
