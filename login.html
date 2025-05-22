@@ -657,8 +657,12 @@ document.getElementById("kodevoucher").click();
   // Set elemen lain
   document.getElementById("title").innerHTML = nama;
   document.getElementById("copyright").innerHTML = copyright;
-  document.getElementById("trial1").innerHTML = trial;
-  document.getElementById("trial2").innerHTML = trial;
+    if (document.getElementById("trial1")) {
+      document.getElementById("trial1").innerHTML = trialtitle;
+    }
+    if (document.getElementById("trial2")) {
+      document.getElementById("trial2").innerHTML = trialtitle;
+    }
   // document.getElementById("notifikasi").innerHTML = notifikasi;
 
   window.addEventListener("load", function () {
