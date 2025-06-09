@@ -39,7 +39,10 @@ aktifkan_evoucher = "Y";
 aktifkan_daftar_membership = "N";
 
 //Aktifkan Pendaftaran Billing
-aktifkan_daftar_billing = "N";
+aktifkan_daftar_billing = "Y";
+
+//Aktifkan Login QR Code
+aktifkan_login_qr = "Y";
 
 //Aktifkan NIK
 aktifkan_nik = "N";

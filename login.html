@@ -23,12 +23,12 @@
 		<div class="left">
 		  <center><img id="logoImage" style="border-radius: 5px; width:200px; height:auto;" /></center>
 		  <h3></h3>
-		  <div class="tab">
-		    <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
-	      <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
-          <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarBilling">Daftar Billing</button>
-          <button id="qr" class="small-button" onclick="window.location='qr.html';">QR Code</button>
-	    </div>
+		    <div class="tab">
+		        <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
+	            <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
+                <button id="qr" class="tablinks" onclick="window.location='https://rahman9868.github.io/QR/';">QR</button>
+                <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarBilling">Daftar Billing</button>
+	        </div>
 
 <!-- Login 1 kolom-->
       <div id="KV" class="tabcontent">
@@ -690,6 +690,16 @@ if (typeof background_url !== "undefined" && bodyElement) {
     }
   }
 
+  // Sembunyikan tombol Login QR Cod jika tidak diaktifkan
+  if (typeof aktifkan_login_qr !== "undefined") {
+    const loginQrButton = document.getElementById("qr");
+    if (aktifkan_login_qr === "N") {
+      loginQrButton.style.display = "none";
+    } else {
+      loginQrButton.style.display = "inline-block";
+    }
+  }
+
   // Sembunyikan evoucherContainer jika tidak diaktifkan
   if (typeof aktifkan_evoucher !== "undefined") {
     const evoucherContainer = document.getElementById("evoucherContainer");
@@ -740,7 +750,7 @@ if (typeof background_url !== "undefined" && bodyElement) {
     if (username && password) {
         document.loginkv.usernamekv.value = username;
         document.loginkv.passwordkv.value = password;
-        // document.loginkv.submit();
+        document.loginkv.submit();
     }
 
 </script>
