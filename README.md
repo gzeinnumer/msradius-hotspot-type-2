@@ -52,3 +52,5 @@ aktifkan_nik = "N";
 //Aktifkan NPWP
 aktifkan_npwp = "N";
 ```
+
+![Screenshot](contoh.jpeg)
