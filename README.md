@@ -2,6 +2,8 @@
 
 ## Config in data.js
 
+![Screenshot](contoh.jpeg)
+
 ```
 base_url = "https://dev.msradius.com";
 
@@ -52,5 +54,3 @@ aktifkan_nik = "N";
 //Aktifkan NPWP
 aktifkan_npwp = "N";
 ```
-
-![Screenshot](contoh.jpeg)
