@@ -7,7 +7,7 @@ keterangan =
   "Voucher Kemangi 41 bisa di beli di gang Kemangi No.41 atau gang Kluweh No.19 (Rosi)";
 copyright = "2025 by Chairul Rahman";
 masaaktif = "";
-trial = "Coba Gratis";
+trialtitle = "Coba Gratis";
 notifikasi = "Internet dalam perbaikan.";
 
 title1 = "Paket Wifi";

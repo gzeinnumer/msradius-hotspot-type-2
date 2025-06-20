@@ -2,6 +2,8 @@
 
 ## Config in data.js
 
+![Screenshot](contoh.jpeg)
+
 ```
 base_url = "https://dev.msradius.com";
 
