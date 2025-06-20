@@ -54,3 +54,14 @@ aktifkan_nik = "N";
 //Aktifkan NPWP
 aktifkan_npwp = "N";
 ```
+## Walled Garden QR Code
+
+```
+
+/ip hotspot walled-garden ip
+remove [find comment~"QR-"];
+
+/ip hotspot walled-garden ip
+add action=accept disabled=no comment="QR-MSRADIUS" dst-host="https://rahman9868.github.io";
+
+```
