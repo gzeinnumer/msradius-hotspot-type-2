@@ -417,11 +417,12 @@ document.getElementById("kodevoucher").click();
       <div class="middle" id="evoucherContainer">
         <!-- LIST EVOUCHER START -->
         <p class="info">Beli EVoucher</p>
+        <div id="evoucher-error" style="color: red; display: none; margin-top: 10px"></div>
         <div id="evoucher-list" class="evoucher-list"></div>
         <script>
 
           async function loadEvouchers() {
-
+          const errorContainer = document.getElementById("evoucher-error");
             try {
               const response = await fetch(
                 base_url+"/api/evoucher"
@@ -458,11 +459,20 @@ document.getElementById("kodevoucher").click();
 
                 evoucherList.innerHTML = v;
                 applyAccordion(); // Jalankan fungsi accordion setelah render
+                errorContainer.style.display = "none";
               } else {
                 console.error("Failed to fetch e-vouchers:", response.status);
+                const errorData = await response.json();
+                const message = errorData?.message || "Gagal memuat e-voucher.";
+                errorContainer.innerText = message;
+                errorContainer.style.display = "block";
+                evoucherList.innerHTML = "";
               }
             } catch (error) {
               console.error("Error fetching e-vouchers:", error);
+                errorContainer.innerText = error;
+                errorContainer.style.display = "block";
+                evoucherList.innerHTML = "";
             }
           }
 
