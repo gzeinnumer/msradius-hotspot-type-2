@@ -109,6 +109,7 @@
 				<input type="submit" class="buttona" value="Login" />
 				<input type="button" class="buttona" value="Reset" onclick="return doReset()" />
             </div>
+			<div id="errorLogin" style="display: none; margin-top: 10px; font-weight: bold; text-align: center; "></div>
 			<div id="resetMessage" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
             </form>
             </center>
@@ -625,43 +626,13 @@ document.getElementById("kodevoucher").click();
       <script src="data.js"></script> <!-- Panggil semua data variabel dari sini -->
 <script type="text/javascript">
   var error = "$(error)";
-
-  if (error == "user $(username) has reached uptime limit" ||
-      error == "session limit reached ($(error-orig))" ||
-      error == "user $(username) has reached traffic limit") {
-
-      document.getElementById('title6').innerHTML = title6;
-      document.getElementById('notifexp').innerHTML = expired;
-      window.location.href = "./login#expired";
-
-  } else if (error == "invalid username or password") {
-
-      document.getElementById('title5').innerHTML = title5;
-      document.getElementById('notiferr').innerHTML = invaliduser;
-      window.location.href = "./login#cekuser";
-
-  } else if (error == "auth-in-progress = already authorizing, retry later" ||
-             error == "no more sessions are allowed for user $(username)") {
-
-      document.getElementById('title5').innerHTML = title5;
-      document.getElementById('notiferr').innerHTML = sudahlogin;
-      window.location.href = "./login#cekuser";
-
-  } else if (error == "invalid username ($(username)): this MAC address is not yours" ||
-             error == "you are not logged in (ip $(ip))") {
-
-      document.getElementById('title5').innerHTML = title5;
-      document.getElementById('notiferr').innerHTML = ilegal;
-      window.location.href = "./login#cekuser";
-
-  } else if (error == "RADIUS server is not responding") {
-
-      document.getElementById('title5').innerHTML = title5;
-      document.getElementById('notiferr').innerHTML = radius;
-      window.location.href = "./login#cekuser";
-
-  } else {
-      // Tidak ada error tertentu, bisa kosong atau log
+  const errorMessage = document.getElementById("errorLogin");
+  if (error && error.trim() !== "") {
+    errorMessage.textContent = error;
+    errorMessage.style.color = "red";
+    errorMessage.style.display = "block";
+  }else{
+    errorMessage.style.display = "none";
   }
 
   // Set elemen lain
