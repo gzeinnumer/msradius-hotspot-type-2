@@ -33,7 +33,7 @@ background_url = "img/bg.jpg";
 
 // Y untuk YA, N untuk NO
 
-//Aktifkan Penjualan EVoucher
+//Aktifkan Reset Voucher
 aktifkan_reset = "Y";
 
 //Aktifkan Penjualan EVoucher

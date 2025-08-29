@@ -39,6 +39,10 @@ favicon_url = "favicon.ico";
 background_url = "img/bg.jpg";
 
 // Y untuk YA, N untuk NO
+
+//Aktifkan Reset Voucher
+aktifkan_reset = "Y";
+
 //Aktifkan Penjualan EVoucher
 aktifkan_evoucher = "Y";
 
