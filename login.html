@@ -107,7 +107,7 @@
             <input id="pass" name="passwordkv" placeholder="Password" type="hidden"/>
 			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
 				<input type="submit" class="buttona" value="Login" />
-				<input type="button" class="buttona" value="Reset" onclick="return doReset()" />
+				<input id="btn_reset" type="button" class="buttona" value="Reset" onclick="return doReset()" />
             </div>
 			<div id="errorLogin" style="display: none; margin-top: 10px; font-weight: bold; text-align: center; "></div>
 			<div id="resetMessage" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
@@ -200,7 +200,7 @@
               <input  name="passwordup" type="password" placeholder="Password"/>
 			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
 				<input type="submit" class="buttona" value="Login" />
-				<input type="button" class="buttona" value="Reset" onclick="return doReset()" />
+				<input id="btn_reset_member" type="button" class="buttona" value="Reset" onclick="return doReset()" />
             </div>
 			<div id="resetMessageUp" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
             </form>
@@ -672,6 +672,19 @@ if (typeof background_url !== "undefined" && bodyElement) {
     } else {
       daftarBillingBtn.style.display = "inline-block";
       loadProfiles();
+    }
+  }
+
+  // Sembunyikan tombol Reset Voucher jika tidak diaktifkan
+  if (typeof aktifkan_reset !== "undefined") {
+    const resetButton = document.getElementById("btn_reset" );
+    const resetMemberButton = document.getElementById("btn_reset_member" );
+    if (aktifkan_reset === "N") {
+      resetButton.style.display = "none";
+      resetMemberButton.style.display = "none";
+    } else {
+      resetButton.style.display = "inline-block";
+      resetMemberButton.style.display = "inline-block";
     }
   }
 
