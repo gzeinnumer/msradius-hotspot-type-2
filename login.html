@@ -1,53 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title id="title"></title>
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="pragma" content="no-cache" />
-<meta http-equiv="expires" content="-1" />
-<link id="faviconLink" rel="icon" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="style.css">
-<script src="d3.v3.min.js"></script>
-<script type="text/javascript" src="data.js"></script>
+  <head>
+    <title id="title"></title>
+    <meta
+      name="viewport"
+      content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <link id="faviconLink" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="d3.v3.min.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+  </head>
+  <body id="mainBody" class="bg">
+    <div class="container" style="text-align: center">
+      <div class="notif" id="notifikasi"></div>
+      <!-- .notif-->
 
-</head>
-<body id="mainBody" class="bg">
+      <div class="left">
+        <center>
+          <img
+            id="logoImage"
+            style="border-radius: 5px; width: 200px; height: auto"
+          />
+        </center>
+        <h3></h3>
+        <div class="tab">
+          <button
+            class="tablinks"
+            onclick="openLogin(event, 'KV')"
+            id="kodevoucher"
+          >
+            Voucher
+          </button>
+          <button
+            class="tablinks"
+            onclick="openLogin(event, 'UP')"
+            id="userpass"
+          >
+            Member
+          </button>
+          <button
+            id="qr"
+            class="tablinks"
+            onclick="window.location='https://rahman9868.github.io/QR';"
+          >
+            QR
+          </button>
+          <button
+            class="tablinks"
+            onclick="openLogin(event, 'RG-BILLING')"
+            id="daftarBilling"
+          >
+            Daftar Billing
+          </button>
+        </div>
 
-<div class="container" style="text-align: center;">
-
-  <div class="notif" id="notifikasi">
-
-  </div> <!-- .notif-->
-
-		<div class="left">
-		  <center><img id="logoImage" style="border-radius: 5px; width:200px; height:auto;" /></center>
-		  <h3></h3>
-		    <div class="tab">
-		        <button class="tablinks" onclick="openLogin(event, 'KV')" id="kodevoucher">Voucher</button>
-	            <button class="tablinks" onclick="openLogin(event, 'UP')" id="userpass">Member</button>
-                <button id="qr" class="tablinks" onclick="window.location='https://rahman9868.github.io/QR';">QR</button>
-                <button class="tablinks" onclick="openLogin(event, 'RG-BILLING')" id="daftarBilling">Daftar Billing</button>
-	        </div>
-
-<!-- Login 1 kolom-->
-      <div id="KV" class="tabcontent">
-        $(if chap-id)
-        <form name="sendinkv" action="$(link-login-only)" method="post">
-          <input type="hidden" name="username" />
-          <input type="hidden" name="password" />
-          <input type="hidden" name="dst" value="$(link-orig)" />
-          <input type="hidden" name="popup" value="true" />
-        </form>
-        <script type="text/javascript" src="/md5.js"></script>
-        <script type="text/javascript">
-          function doLoginkv() {
-            document.sendinkv.username.value = document.loginkv.usernamekv.value;
-            document.sendinkv.password.value = hexMD5('$(chap-id)' + document.loginkv.passwordkv.value + '$(chap-challenge)');
-            document.sendinkv.submit();
-            return false;
-          }
-		  async function doReset() {
+        <!-- Login 1 kolom-->
+        <div id="KV" class="tabcontent">
+          $(if chap-id)
+          <form name="sendinkv" action="$(link-login-only)" method="post">
+            <input type="hidden" name="username" />
+            <input type="hidden" name="password" />
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+          </form>
+          <script type="text/javascript" src="/md5.js"></script>
+          <script type="text/javascript">
+            function doLoginkv() {
+              document.sendinkv.username.value =
+                document.loginkv.usernamekv.value;
+              document.sendinkv.password.value = hexMD5(
+                "$(chap-id)" +
+                  document.loginkv.passwordkv.value +
+                  "$(chap-challenge)"
+              );
+              document.sendinkv.submit();
+              return false;
+            }
+            async function doReset() {
               console.log("Do Reset");
               const username = document.loginkv.usernamekv.value.trim();
               const messageEl = document.getElementById("resetMessage");
@@ -63,98 +96,8 @@
 
               try {
                 const response = await fetch(
-                  base_url+"/api/optimizeusername?unique=" +
-                    encodeURIComponent(username),
-                  {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
-                );
-
-                if (response.ok) {
-                  const result = await response.json();
-                  if (result.code == 200) {
-                    messageEl.textContent = "Optimize successful! Please try login again.";
-                    messageEl.style.color = "green";
-                  } else {
-                    messageEl.textContent = "Failed to optimize.";
-                    messageEl.style.color = "red";
-                  }
-                } else {
-                  messageEl.textContent = "Failed to optimize.";
-                  messageEl.style.color = "red";
-                }
-              } catch (error) {
-                console.error("Error:", error);
-                messageEl.textContent = "An error occurred. Please try again.";
-                messageEl.style.color = "red";
-              }
-
-              return false;
-            }
-        </script>
-        $(endif)
-        <div>
-          <center>
-          <div style="padding-top:10px;padding-bottom:10px;">$(if trial == 'yes')<a id="trial1" class="a" href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"></a>$(endif)</div>
-          <form autocomplete="off" name="loginkv" action="$(link-login-only)" method="post"
-          $(if chap-id) onSubmit="return doLoginkv()" $(endif)>
-            <input type="hidden" name="dst" value="$(link-orig)" />
-            <input type="hidden" name="popup" value="true" />
-            <input id="user" name="usernamekv" type="text" placeholder="Voucher" onchange="updateInput(this.value)" value="$(username)"/>
-            <input id="pass" name="passwordkv" placeholder="Password" type="hidden"/>
-			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
-				<input type="submit" class="buttona" value="Login" />
-				<input id="btn_reset" type="button" class="buttona" value="Reset" onclick="return doReset()" />
-            </div>
-			<div id="errorLogin" style="display: none; margin-top: 10px; font-weight: bold; text-align: center; "></div>
-			<div id="resetMessage" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
-            </form>
-            </center>
-            <script type="text/javascript">
-              function updateInput(passwd){
-                document.getElementById("pass").value = passwd;
-              }
-            </script>
-        </div>
-      </div>
-
-<!-- Login 2 kolom -->
-      <div id="UP" class="tabcontent">
-        $(if chap-id)
-        <form name="sendinup" action="$(link-login-only)" method="post">
-          <input type="hidden" name="username" />
-          <input type="hidden" name="password" />
-          <input type="hidden" name="dst" value="$(link-orig)" />
-          <input type="hidden" name="popup" value="true" />
-        </form>
-        <script type="text/javascript" src="/md5.js"></script>
-        <script type="text/javascript">
-          function doLoginup() {
-            document.sendinup.username.value = document.loginup.usernameup.value;
-            document.sendinup.password.value = hexMD5('$(chap-id)' + document.loginup.passwordup.value + '$(chap-challenge)');
-            document.sendinup.submit();
-            return false;
-          }
-		  async function doResetMember() {
-              console.log("Do doResetMember");
-              const username = document.loginup.usernameup.value.trim();
-              const messageEl = document.getElementById("resetMessageUp");
-
-              messageEl.textContent = "";
-              messageEl.style.color = "";
-
-              if (!username) {
-                messageEl.textContent = "Silakan isi username terlebih dahulu.";
-                messageEl.style.color = "red";
-                return false;
-              }
-
-              try {
-                const response = await fetch(
-                  base_url+"/api/optimizeusername?unique=" +
+                  base_url +
+                    "/api/optimizeusername?unique=" +
                     encodeURIComponent(username),
                   {
                     method: "GET",
@@ -186,79 +129,300 @@
 
               return false;
             }
-
-        </script>
-        $(endif)
-        <div>
-          <center>
-          <div style="padding-top:10px;padding-bottom:10px;">$(if trial == 'yes')<a id="trial2" class="a" href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"></a>$(endif)</div>
-            <form autocomplete="off" name="loginup" action="$(link-login-only)" method="post"
-            $(if chap-id) onSubmit="return doLoginup()" $(endif)>
-              <input type="hidden" name="dst" value="$(link-orig)" />
-              <input type="hidden" name="popup" value="true" />
-              <input  name="usernameup" type="text" placeholder="Username" value="$(username)"/>
-              <input  name="passwordup" type="password" placeholder="Password"/>
-			<div style="display: flex; justify-content: center; gap: 5px; margin-top: 20px;" >
-				<input type="submit" class="buttona" value="Login" />
-				<input id="btn_reset_member" type="button" class="buttona" value="Reset" onclick="return doReset()" />
-            </div>
-			<div id="resetMessageUp" style="margin-top: 10px; font-weight: bold; text-align: center; "></div>
-            </form>
+          </script>
+          $(endif)
+          <div>
+            <center>
+              <div style="padding-top: 10px; padding-bottom: 10px">
+                $(if trial == 'yes')<a
+                  id="trial1"
+                  class="a"
+                  href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"
+                ></a
+                >$(endif)
+              </div>
+              <form
+                autocomplete="off"
+                name="loginkv"
+                action="$(link-login-only)"
+                method="post"
+                $(if
+                chap-id)
+                onSubmit="return doLoginkv()"
+                $(endif)
+              >
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+                <input
+                  id="user"
+                  name="usernamekv"
+                  type="text"
+                  placeholder="Voucher"
+                  onchange="updateInput(this.value)"
+                  value="$(username)"
+                />
+                <input
+                  id="pass"
+                  name="passwordkv"
+                  placeholder="Password"
+                  type="hidden"
+                />
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    margin-top: 20px;
+                  "
+                >
+                  <input type="submit" class="buttona" value="Login" />
+                  <input
+                    id="btn_reset"
+                    type="button"
+                    class="buttona"
+                    value="Reset"
+                    onclick="return doReset()"
+                  />
+                </div>
+                <div
+                  id="errorLogin"
+                  style="
+                    display: none;
+                    margin-top: 10px;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                ></div>
+                <div
+                  id="resetMessage"
+                  style="
+                    margin-top: 10px;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                ></div>
+              </form>
             </center>
+            <script type="text/javascript">
+              function updateInput(passwd) {
+                document.getElementById("pass").value = passwd;
+              }
+            </script>
+          </div>
         </div>
-      </div>
 
-      <div id="RG-BILLING" class="tabcontent">
-		<script>
+        <!-- Login 2 kolom -->
+        <div id="UP" class="tabcontent">
+          $(if chap-id)
+          <form name="sendinup" action="$(link-login-only)" method="post">
+            <input type="hidden" name="username" />
+            <input type="hidden" name="password" />
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+          </form>
+          <script type="text/javascript" src="/md5.js"></script>
+          <script type="text/javascript">
+            function doLoginup() {
+              document.sendinup.username.value =
+                document.loginup.usernameup.value;
+              document.sendinup.password.value = hexMD5(
+                "$(chap-id)" +
+                  document.loginup.passwordup.value +
+                  "$(chap-challenge)"
+              );
+              document.sendinup.submit();
+              return false;
+            }
+            async function doResetMember() {
+              console.log("Do doResetMember");
+              const username = document.loginup.usernameup.value.trim();
+              const messageEl = document.getElementById("resetMessageUp");
+
+              messageEl.textContent = "";
+              messageEl.style.color = "";
+
+              if (!username) {
+                messageEl.textContent = "Silakan isi username terlebih dahulu.";
+                messageEl.style.color = "red";
+                return false;
+              }
+
+              try {
+                const response = await fetch(
+                  base_url +
+                    "/api/optimizeusername?unique=" +
+                    encodeURIComponent(username),
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+
+                if (response.ok) {
+                  const result = await response.json();
+                  if (result.code == 200) {
+                    messageEl.textContent =
+                      "Optimize successful! Please try login again.";
+                    messageEl.style.color = "green";
+                  } else {
+                    messageEl.textContent = "Failed to optimize.";
+                    messageEl.style.color = "red";
+                  }
+                } else {
+                  messageEl.textContent = "Failed to optimize.";
+                  messageEl.style.color = "red";
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                messageEl.textContent = "An error occurred. Please try again.";
+                messageEl.style.color = "red";
+              }
+
+              return false;
+            }
+          </script>
+          $(endif)
+          <div>
+            <center>
+              <div style="padding-top: 10px; padding-bottom: 10px">
+                $(if trial == 'yes')<a
+                  id="trial2"
+                  class="a"
+                  href="$(link-login-only)?dst=$(link-orig-esc)&amp;username=T-$(mac-esc)"
+                ></a
+                >$(endif)
+              </div>
+              <form
+                autocomplete="off"
+                name="loginup"
+                action="$(link-login-only)"
+                method="post"
+                $(if
+                chap-id)
+                onSubmit="return doLoginup()"
+                $(endif)
+              >
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
+                <input
+                  name="usernameup"
+                  type="text"
+                  placeholder="Username"
+                  value="$(username)"
+                />
+                <input
+                  name="passwordup"
+                  type="password"
+                  placeholder="Password"
+                />
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    margin-top: 20px;
+                  "
+                >
+                  <input type="submit" class="buttona" value="Login" />
+                  <input
+                    id="btn_reset_member"
+                    type="button"
+                    class="buttona"
+                    value="Reset"
+                    onclick="return doReset()"
+                  />
+                </div>
+                <div
+                  id="resetMessageUp"
+                  style="
+                    margin-top: 10px;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                ></div>
+              </form>
+            </center>
+          </div>
+        </div>
+
+        <div id="RG-BILLING" class="tabcontent">
+          <script>
             async function doRegisterBilling(event) {
-              console.log("Do RegisterBilling")
+              console.log("Do RegisterBilling");
               event.preventDefault();
 
               // Ambil semua nilai dari form
-                const nama = document.getElementById("name_billing").value.trim();
-                const username_client_area = document.getElementById("username_billing").value.trim();
-                const password_client_area = document.getElementById("password_billing").value.trim();
-                const nikRaw = document.getElementById("nik_billing").value.trim();
-                const npwpRaw = document.getElementById("npwp_billing").value.trim();
-                const phoneRaw = document.getElementById("phone_billing").value.trim();
-                const whatsappRaw = document.getElementById("whatsapp_billing").value.trim();
-                const rawProfileId = document.getElementById("packet_billing_dropdown").value.trim();
-                const email = document.getElementById("email_billing").value.trim();
-                const alamat = document.getElementById("address_billing").value.trim();
-                const note = document.getElementById("note_billing").value.trim();
-
+              const nama = document.getElementById("name_billing").value.trim();
+              const username_client_area = document
+                .getElementById("username_billing")
+                .value.trim();
+              const password_client_area = document
+                .getElementById("password_billing")
+                .value.trim();
+              const nikRaw = document
+                .getElementById("nik_billing")
+                .value.trim();
+              const npwpRaw = document
+                .getElementById("npwp_billing")
+                .value.trim();
+              const phoneRaw = document
+                .getElementById("phone_billing")
+                .value.trim();
+              const whatsappRaw = document
+                .getElementById("whatsapp_billing")
+                .value.trim();
+              const rawProfileId = document
+                .getElementById("packet_billing_dropdown")
+                .value.trim();
+              const email = document
+                .getElementById("email_billing")
+                .value.trim();
+              const alamat = document
+                .getElementById("address_billing")
+                .value.trim();
+              const note = document.getElementById("note_billing").value.trim();
 
               // Validasi
               if (
-                !nama || !username_client_area || !password_client_area ||
+                !nama ||
+                !username_client_area ||
+                !password_client_area ||
                 rawProfileId === ""
               ) {
                 alert("Harap isi field nama dan pilih paket eVoucher!");
                 return false;
               }
               try {
-              // Bangun objek payload
-              const payload = {};
-              if (nama !== "") payload.nama = nama;
-              if (username_client_area !== "") payload.username_client_area = username_client_area;
-              if (password_client_area !== "") payload.password_client_area = password_client_area;
-              if (nikRaw !== "") payload.nik = parseInt(nikRaw);
-              if (npwpRaw !== "") payload.npwp = parseInt(npwpRaw);
-              if (phoneRaw !== "") payload.phone = parseInt(phoneRaw);
-              if (whatsappRaw !== "") payload.whatsapp = parseInt(whatsappRaw);
-              if (email !== "") payload.email = email;
-              if (alamat !== "") payload.alamat = alamat;
-              if (note !== "") payload.note = note;
-              if (rawProfileId !== "") payload.profile_id = parseInt(rawProfileId);
+                // Bangun objek payload
+                const payload = {};
+                if (nama !== "") payload.nama = nama;
+                if (username_client_area !== "")
+                  payload.username_client_area = username_client_area;
+                if (password_client_area !== "")
+                  payload.password_client_area = password_client_area;
+                if (nikRaw !== "") payload.nik = parseInt(nikRaw);
+                if (npwpRaw !== "") payload.npwp = parseInt(npwpRaw);
+                if (phoneRaw !== "") payload.phone = parseInt(phoneRaw);
+                if (whatsappRaw !== "")
+                  payload.whatsapp = parseInt(whatsappRaw);
+                if (email !== "") payload.email = email;
+                if (alamat !== "") payload.alamat = alamat;
+                if (note !== "") payload.note = note;
+                if (rawProfileId !== "")
+                  payload.profile_id = parseInt(rawProfileId);
 
-              const response = await fetch(base_url + "/api/candidate/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-                });
-
+                const response = await fetch(
+                  base_url + "/api/candidate/register",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                  }
+                );
 
                 const result = await response.json();
 
@@ -279,12 +443,16 @@
               return false;
             }
             async function loadProfiles() {
-			  console.log("Do loadProfiles");
+              console.log("Do loadProfiles");
               try {
-                const response = await fetch(base_url+"/api/candidate/billinglist");
+                const response = await fetch(
+                  base_url + "/api/candidate/billinglist"
+                );
                 if (response.ok) {
                   const res = await response.json();
-                  const dropdown = document.getElementById("packet_billing_dropdown");
+                  const dropdown = document.getElementById(
+                    "packet_billing_dropdown"
+                  );
                   let options = '<option value="">Pilih Paket</option>';
 
                   res.data.forEach((element) => {
@@ -311,123 +479,260 @@
                 console.error("Error fetching profiles for dropdown:", error);
               }
             }
-		  </script>
+          </script>
           <div class="form-wrapper" style="width: 100%; margin-top: 10px">
-            <form name="registerBilling" onsubmit="return doRegisterBilling(event)" style="width: 100%" >
+            <form
+              name="registerBilling"
+              onsubmit="return doRegisterBilling(event)"
+              style="width: 100%"
+            >
               <div style="margin-bottom: 10px">
-                <label for="name_billing" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="name_billing"
+                  style="display: block; margin-bottom: 5px"
+                >
                   Nama Lengkap *
                 </label>
-                <input id="name_billing" name="name_billing" type="text" required class="full-width-input" />
+                <input
+                  id="name_billing"
+                  name="name_billing"
+                  type="text"
+                  required
+                  class="full-width-input"
+                />
               </div>
               <div style="margin-bottom: 10px">
-                <label for="username_billing" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="username_billing"
+                  style="display: block; margin-bottom: 5px"
+                >
                   Username *
                 </label>
-                <input id="username_billing" name="username_billing" type="text" required class="full-width-input" />
+                <input
+                  id="username_billing"
+                  name="username_billing"
+                  type="text"
+                  required
+                  class="full-width-input"
+                />
               </div>
               <div style="margin-bottom: 10px">
-                <label for="password_billing" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="password_billing"
+                  style="display: block; margin-bottom: 5px"
+                >
                   Password *
                 </label>
-                <input id="password_billing" name="password_billing" type="text" required class="full-width-input" />
+                <input
+                  id="password_billing"
+                  name="password_billing"
+                  type="text"
+                  required
+                  class="full-width-input"
+                />
               </div>
               <div id="nik_billing_container" style="margin-bottom: 10px">
-                <label for="nik_billing" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="nik_billing"
+                  style="display: block; margin-bottom: 5px"
+                >
                   NIK
                 </label>
-                <input id="nik_billing" name="nik_billing" type="number" class="full-width-input" placeholder="(boleh kosong)"/>
+                <input
+                  id="nik_billing"
+                  name="nik_billing"
+                  type="number"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
               </div>
               <div id="npwp_billing_container" style="margin-bottom: 10px">
-                <label for="npwp_billing" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="npwp_billing"
+                  style="display: block; margin-bottom: 5px"
+                >
                   NPWP
                 </label>
-                <input id="npwp_billing" name="npwp_billing" type="number" class="full-width-input"  placeholder="(boleh kosong)"/>
+                <input
+                  id="npwp_billing"
+                  name="npwp_billing"
+                  type="number"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
               </div>
               <div style="margin-bottom: 10px">
-                <label for="phone_billing" style="display: block; margin-bottom: 5px" >Nomor HP</label>
-                <input id="phone_billing" name="phone_billing" type="number" class="full-width-input"  placeholder="(boleh kosong)"/>
-              </div>
-
-              <div style="margin-bottom: 10px">
-                <label for="whatsapp_billing" style="display: block; margin-bottom: 5px" >Nomor Whatsapp</label>
-                <input id="whatsapp_billing" name="whatsapp_billing" type="number" class="full-width-input" placeholder="(boleh kosong)"/>
-              </div>
-
-              <div style="margin-bottom: 10px">
-                <label for="email_billing" style="display: block; margin-bottom: 5px">Email</label>
-                <input id="email_billing" name="email_billing" type="email" class="full-width-input"  placeholder="(boleh kosong)"/>
-              </div>
-
-              <div style="margin-bottom: 10px">
-                <label for="address_billing" style="display: block; margin-bottom: 5px">Alamat Lengkap</label>
-                <textarea id="address_billing" name="address_billing" rows="3" style="height: auto; resize: none; width: 100%; box-sizing: border-box;"  placeholder="(boleh kosong)"></textarea>
-              </div>
-
-              <div style="margin-bottom: 10px">
-                <label for="note_billing" style="display: block; margin-bottom: 5px">Notes</label>
-                <textarea id="note_billing" name="note_billing" rows="2" style="height: auto; resize: none; width: 100%; box-sizing: border-box;" placeholder="(boleh kosong)"></textarea>
+                <label
+                  for="phone_billing"
+                  style="display: block; margin-bottom: 5px"
+                  >Nomor HP</label
+                >
+                <input
+                  id="phone_billing"
+                  name="phone_billing"
+                  type="number"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
               </div>
 
               <div style="margin-bottom: 10px">
-                <label for="packet_billing_dropdown" style="display: block; margin-bottom: 5px">Paket</label>
-                <select id="packet_billing_dropdown" style="height: 35px; width: 100%; box-sizing: border-box">
+                <label
+                  for="whatsapp_billing"
+                  style="display: block; margin-bottom: 5px"
+                  >Nomor Whatsapp</label
+                >
+                <input
+                  id="whatsapp_billing"
+                  name="whatsapp_billing"
+                  type="number"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
+              </div>
+
+              <div style="margin-bottom: 10px">
+                <label
+                  for="email_billing"
+                  style="display: block; margin-bottom: 5px"
+                  >Email</label
+                >
+                <input
+                  id="email_billing"
+                  name="email_billing"
+                  type="email"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
+              </div>
+
+              <div style="margin-bottom: 10px">
+                <label
+                  for="address_billing"
+                  style="display: block; margin-bottom: 5px"
+                  >Alamat Lengkap</label
+                >
+                <textarea
+                  id="address_billing"
+                  name="address_billing"
+                  rows="3"
+                  style="
+                    height: auto;
+                    resize: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                  "
+                  placeholder="(boleh kosong)"
+                ></textarea>
+              </div>
+
+              <div style="margin-bottom: 10px">
+                <label
+                  for="note_billing"
+                  style="display: block; margin-bottom: 5px"
+                  >Notes</label
+                >
+                <textarea
+                  id="note_billing"
+                  name="note_billing"
+                  rows="2"
+                  style="
+                    height: auto;
+                    resize: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                  "
+                  placeholder="(boleh kosong)"
+                ></textarea>
+              </div>
+
+              <div style="margin-bottom: 10px">
+                <label
+                  for="packet_billing_dropdown"
+                  style="display: block; margin-bottom: 5px"
+                  >Paket</label
+                >
+                <select
+                  id="packet_billing_dropdown"
+                  style="height: 35px; width: 100%; box-sizing: border-box"
+                >
                   <option value="">Pilih Paket</option>
                 </select>
               </div>
 
-              <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
+              <input
+                type="submit"
+                class="buttona"
+                value="Daftar Sekarang"
+                style="width: 100%"
+              />
             </form>
           </div>
-      </div>
-	  <div id="cekuser" class="modal-window">
-        <div>
-          <a style="font-weight:bold;" href="#" title="Close" class="modal-close">X</a>
-        <h1 id="title5"></h1>
-        <p id="notiferr"></p>
         </div>
-      </div>
-      <div id="expired" class="modal-window">
-        <div>
-          <a style="font-weight:bold;" href="#" title="Close" class="modal-close">X</a>
-        <h1 id="title6"></h1>
-        <p id="notifexp"></p>
+        <div id="cekuser" class="modal-window">
+          <div>
+            <a
+              style="font-weight: bold"
+              href="#"
+              title="Close"
+              class="modal-close"
+              >X</a
+            >
+            <h1 id="title5"></h1>
+            <p id="notiferr"></p>
+          </div>
         </div>
+        <div id="expired" class="modal-window">
+          <div>
+            <a
+              style="font-weight: bold"
+              href="#"
+              title="Close"
+              class="modal-close"
+              >X</a
+            >
+            <h1 id="title6"></h1>
+            <p id="notifexp"></p>
+          </div>
+        </div>
+
+        <script>
+          function openLogin(evt, loginName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+              tablinks[i].className = tablinks[i].className.replace(
+                " active",
+                ""
+              );
+            }
+            document.getElementById(loginName).style.display = "block";
+            evt.currentTarget.className += " active";
+          }
+
+          // Get the element with id="defaultOpen" and click on it
+          document.getElementById("kodevoucher").click();
+        </script>
       </div>
-
-<script>
-function openLogin(evt, loginName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(loginName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("kodevoucher").click();
-</script>
-		</div>
 
       <div class="middle" id="evoucherContainer">
         <!-- LIST EVOUCHER START -->
         <p class="info">Beli EVoucher</p>
-        <div id="evoucher-error" style="color: red; display: none; margin-top: 10px"></div>
+        <div
+          id="evoucher-error"
+          style="color: red; display: none; margin-top: 10px"
+        ></div>
         <div id="evoucher-list" class="evoucher-list"></div>
         <script>
-
           async function loadEvouchers() {
-          const errorContainer = document.getElementById("evoucher-error");
+            print("loadEvouchers");
+            const errorContainer = document.getElementById("evoucher-error");
             try {
-              const response = await fetch(
-                base_url+"/api/evoucher"
-              );
+              const response = await fetch(base_url + "/api/evoucher");
               if (response.ok) {
                 const res = await response.json();
                 const evoucherList = document.getElementById("evoucher-list");
@@ -436,8 +741,11 @@ document.getElementById("kodevoucher").click();
                 //for (let index = 0; index < res.data.length; index++) {
                 for (let index = res.data.length - 1; index >= 0; index--) {
                   const element = res.data[index];
-                  v += `
-  <button class="accordion acc-bg1"> Paket ${element.profile_name} - Rp. ${element.price_sell.toLocaleString()} </button>
+                  v +=
+                    `
+  <button class="accordion acc-bg1"> Paket ${
+    element.profile_name
+  } - Rp. ${element.price_sell.toLocaleString()} </button>
   <div class="panel">
     <div class="voucher-card">
       <div class="voucher-info">
@@ -449,9 +757,9 @@ document.getElementById("kodevoucher").click();
         </ul>
       </div>
       <div class="voucher-action">
-        <a href="`+base_url+`/store?unique=${
-          element.id
-        }" class="btn-buy" target="_blank">Beli Sekarang</a>
+        <a href="` +
+                    base_url +
+                    `/store?unique=${element.id}" class="btn-buy" target="_blank">Beli Sekarang</a>
       </div>
     </div>
   </div>
@@ -471,9 +779,9 @@ document.getElementById("kodevoucher").click();
               }
             } catch (error) {
               console.error("Error fetching e-vouchers:", error);
-                errorContainer.innerText = error;
-                errorContainer.style.display = "block";
-                evoucherList.innerHTML = "";
+              errorContainer.innerText = error;
+              errorContainer.style.display = "block";
+              evoucherList.innerHTML = "";
             }
           }
 
@@ -491,10 +799,10 @@ document.getElementById("kodevoucher").click();
               });
             }
           }
-
         </script>
         <!-- LIST EVOUCHER END -->
-		</div> <!-- .middle -->
+      </div>
+      <!-- .middle -->
 
       <div id="REGIS-MEMBER" class="middle">
         <script>
@@ -505,8 +813,12 @@ document.getElementById("kodevoucher").click();
             const nama = document.getElementById("name_member").value.trim();
             const nikRaw = document.getElementById("nik_member").value.trim();
             const npwpRaw = document.getElementById("npwp_member").value.trim();
-            const whatsappRaw = document.getElementById("whatsapp_member").value.trim();
-            const alamat = document.getElementById("address_member").value.trim();
+            const whatsappRaw = document
+              .getElementById("whatsapp_member")
+              .value.trim();
+            const alamat = document
+              .getElementById("address_member")
+              .value.trim();
 
             // Validasi
             if (!nama) {
@@ -522,16 +834,13 @@ document.getElementById("kodevoucher").click();
               if (whatsappRaw !== "") payload.whatsapp = parseInt(whatsappRaw);
               if (alamat !== "") payload.alamat = alamat;
 
-              const response = await fetch(
-                base_url+"/api/daftar-member",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(payload),
-                }
-              );
+              const response = await fetch(base_url + "/api/daftar-member", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+              });
 
               const result = await response.json();
 
@@ -560,198 +869,265 @@ document.getElementById("kodevoucher").click();
 
             return false;
           }
-
         </script>
         <div id="memberContainer">
-        <p class="info">Daftar Membership</p>
-        <div class="form-wrapper" style="width: 100%; margin-top: 10px">
-          <form name="formRegisterMember" onsubmit="return doRegisterMember(event)" style="width: 100%" >
-            <div style="margin-bottom: 10px">
-              <label for="name_member" style="display: block; margin-bottom: 5px">
-                Nama Lengkap
-              </label>
-              <input id="name_member" name="name_member" type="text" required class="full-width-input"/>
-            </div>
+          <p class="info">Daftar Membership</p>
+          <div class="form-wrapper" style="width: 100%; margin-top: 10px">
+            <form
+              name="formRegisterMember"
+              onsubmit="return doRegisterMember(event)"
+              style="width: 100%"
+            >
+              <div style="margin-bottom: 10px">
+                <label
+                  for="name_member"
+                  style="display: block; margin-bottom: 5px"
+                >
+                  Nama Lengkap
+                </label>
+                <input
+                  id="name_member"
+                  name="name_member"
+                  type="text"
+                  required
+                  class="full-width-input"
+                />
+              </div>
 
               <div id="nik_member_container" style="margin-bottom: 10px">
-                <label for="nik_member" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="nik_member"
+                  style="display: block; margin-bottom: 5px"
+                >
                   NIK
                 </label>
-                <input id="nik_member" name="nik_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
+                <input
+                  id="nik_member"
+                  name="nik_member"
+                  type="text"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
               </div>
               <div id="npwp_member_container" style="margin-bottom: 10px">
-                <label for="npwp_member" style="display: block; margin-bottom: 5px" >
+                <label
+                  for="npwp_member"
+                  style="display: block; margin-bottom: 5px"
+                >
                   NPWP
                 </label>
-                <input id="npwp_member" name="npwp_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
+                <input
+                  id="npwp_member"
+                  name="npwp_member"
+                  type="text"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
               </div>
 
-            <div style="margin-bottom: 10px">
-              <label for="whatsapp_member" style="display: block; margin-bottom: 5px">Whatsapp</label>
-              <input id="whatsapp_member" name="whatsapp_member" type="text" class="full-width-input" placeholder="(boleh kosong)"/>
-            </div>
+              <div style="margin-bottom: 10px">
+                <label
+                  for="whatsapp_member"
+                  style="display: block; margin-bottom: 5px"
+                  >Whatsapp</label
+                >
+                <input
+                  id="whatsapp_member"
+                  name="whatsapp_member"
+                  type="text"
+                  class="full-width-input"
+                  placeholder="(boleh kosong)"
+                />
+              </div>
 
-            <div style="margin-bottom: 10px">
-              <label for="address_member" style="display: block; margin-bottom: 5px" >Alamat</label>
-              <textarea id="address_member" name="address_member" rows="3" style="height: auto; resize: none; width: 100%; box-sizing: border-box;" placeholder="(boleh kosong)"></textarea>
-            </div>
+              <div style="margin-bottom: 10px">
+                <label
+                  for="address_member"
+                  style="display: block; margin-bottom: 5px"
+                  >Alamat</label
+                >
+                <textarea
+                  id="address_member"
+                  name="address_member"
+                  rows="3"
+                  style="
+                    height: auto;
+                    resize: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                  "
+                  placeholder="(boleh kosong)"
+                ></textarea>
+              </div>
 
-            <input type="submit" class="buttona" value="Daftar Sekarang" style="width: 100%" />
-          </form>
+              <input
+                type="submit"
+                class="buttona"
+                value="Daftar Sekarang"
+                style="width: 100%"
+              />
+            </form>
+          </div>
         </div>
-        </div>
-          <h3 id="title2"></h3>
-          <p id="keterangan"></p>
-          <h3 id="title3"></h3>
-          <p id="alamat"></p>
-          <h3 id="title4"></h3>
-          <p id="phone-off"></p>
+        <h3 id="title2"></h3>
+        <p id="keterangan"></p>
+        <h3 id="title3"></h3>
+        <p id="alamat"></p>
+        <h3 id="title4"></h3>
+        <p id="phone-off"></p>
       </div>
       <!-- .middle -->
 
-	<div class="footer" style="color: white;">
-	  <i>Copyright &copy; <i id="copyright"></i></i><br>
-	  <i>Powered by <a href="https://msradius.com">MSRadius</a></i>
-	</div>
+      <div class="footer" style="color: white">
+        <i>Copyright &copy; 2025 by Chairul</i><br />
+        <i>Powered by <a href="https://msradius.com">MSRadius</a></i>
+      </div>
 
-  <script>
-  document.getElementById("title2").innerHTML = title2;
-  document.getElementById("title3").innerHTML = title3;
-  document.getElementById("title4").innerHTML = title4;
-  document.getElementById("alamat").innerHTML = alamat;
-  document.getElementById("phone-off").innerHTML = phone;
-  document.getElementById("keterangan").innerHTML = keterangan;
-  </script>
-</div>
-      <script src="data.js"></script> <!-- Panggil semua data variabel dari sini -->
-<script type="text/javascript">
-  var error = "$(error)";
-  const errorMessage = document.getElementById("errorLogin");
-  if (error && error.trim() !== "") {
-    errorMessage.textContent = error;
-    errorMessage.style.color = "red";
-    errorMessage.style.display = "block";
-  }else{
-    errorMessage.style.display = "none";
-  }
+      <script>
+        document.getElementById("title2").innerHTML = title2;
+        document.getElementById("title3").innerHTML = title3;
+        document.getElementById("title4").innerHTML = title4;
+        document.getElementById("alamat").innerHTML = alamat;
+        document.getElementById("phone-off").innerHTML = phone;
+        document.getElementById("keterangan").innerHTML = keterangan;
+      </script>
+    </div>
+    <script src="data.js"></script>
+    <!-- Panggil semua data variabel dari sini -->
+    <script type="text/javascript">
+      var error = "$(error)";
+      const errorMessage = document.getElementById("errorLogin");
+      if (error && error.trim() !== "") {
+        errorMessage.textContent = error;
+        errorMessage.style.color = "red";
+        errorMessage.style.display = "block";
+      } else {
+        errorMessage.style.display = "none";
+      }
 
-  // Set elemen lain
-  document.getElementById("title").innerHTML = nama;
-  document.getElementById("copyright").innerHTML = copyright;
-    if (document.getElementById("trial1")) {
-      document.getElementById("trial1").innerHTML = trialtitle;
-    }
-    if (document.getElementById("trial2")) {
-      document.getElementById("trial2").innerHTML = trialtitle;
-    }
-  // document.getElementById("notifikasi").innerHTML = notifikasi;
+      // Set elemen lain
+      document.getElementById("title").innerHTML = nama;
+      if (document.getElementById("trial1")) {
+        document.getElementById("trial1").innerHTML = trialtitle;
+      }
+      if (document.getElementById("trial2")) {
+        document.getElementById("trial2").innerHTML = trialtitle;
+      }
+      // document.getElementById("notifikasi").innerHTML = notifikasi;
 
-  window.addEventListener("load", function () {
-const bodyElement = document.getElementById("mainBody");
-if (typeof background_url !== "undefined" && bodyElement) {
-  bodyElement.style.backgroundImage = `url('${background_url}')`;
-}
-    const faviconElement = document.getElementById("faviconLink");
-    if (typeof favicon_url !== "undefined" && faviconElement) {
-      faviconElement.href = favicon_url;
-    }
+      window.addEventListener("load", function () {
+        const bodyElement = document.getElementById("mainBody");
+        if (typeof background_url !== "undefined" && bodyElement) {
+          bodyElement.style.backgroundImage = `url('${background_url}')`;
+        }
+        const faviconElement = document.getElementById("faviconLink");
+        if (typeof favicon_url !== "undefined" && faviconElement) {
+          faviconElement.href = favicon_url;
+        }
 
-  const logoImg = document.getElementById("logoImage");
-  if (typeof logo_url !== "undefined" && logoImg) {
-    logoImg.src = logo_url;
-  }
-  if (typeof nama !== "undefined" && logoImg) {
-    logoImg.alt = nama;
-  }
+        const logoImg = document.getElementById("logoImage");
+        if (typeof logo_url !== "undefined" && logoImg) {
+          logoImg.src = logo_url;
+        }
+        if (typeof nama !== "undefined" && logoImg) {
+          logoImg.alt = nama;
+        }
 
-  // Sembunyikan tombol Daftar Billing jika tidak diaktifkan
-  if (typeof aktifkan_daftar_billing !== "undefined") {
-    const daftarBillingBtn = document.getElementById("daftarBilling");
-    if (aktifkan_daftar_billing === "N") {
-      daftarBillingBtn.style.display = "none";
-    } else {
-      daftarBillingBtn.style.display = "inline-block";
-      loadProfiles();
-    }
-  }
+        // Sembunyikan tombol Daftar Billing jika tidak diaktifkan
+        if (typeof aktifkan_daftar_billing !== "undefined") {
+          const daftarBillingBtn = document.getElementById("daftarBilling");
+          if (aktifkan_daftar_billing === "N") {
+            daftarBillingBtn.style.display = "none";
+          } else {
+            daftarBillingBtn.style.display = "inline-block";
+            loadProfiles();
+          }
+        }
 
-  // Sembunyikan tombol Reset Voucher jika tidak diaktifkan
-  if (typeof aktifkan_reset !== "undefined") {
-    const resetButton = document.getElementById("btn_reset" );
-    const resetMemberButton = document.getElementById("btn_reset_member" );
-    if (aktifkan_reset === "N") {
-      resetButton.style.display = "none";
-      resetMemberButton.style.display = "none";
-    } else {
-      resetButton.style.display = "inline-block";
-      resetMemberButton.style.display = "inline-block";
-    }
-  }
+        // Sembunyikan tombol Reset Voucher jika tidak diaktifkan
+        if (typeof aktifkan_reset !== "undefined") {
+          const resetButton = document.getElementById("btn_reset");
+          const resetMemberButton = document.getElementById("btn_reset_member");
+          if (aktifkan_reset === "N") {
+            resetButton.style.display = "none";
+            resetMemberButton.style.display = "none";
+          } else {
+            resetButton.style.display = "inline-block";
+            resetMemberButton.style.display = "inline-block";
+          }
+        }
 
-  // Sembunyikan tombol Login QR Cod jika tidak diaktifkan
-  if (typeof aktifkan_login_qr !== "undefined") {
-    const loginQrButton = document.getElementById("qr");
-    if (aktifkan_login_qr === "N") {
-      loginQrButton.style.display = "none";
-    } else {
-      loginQrButton.style.display = "inline-block";
-    }
-  }
+        // Sembunyikan tombol Login QR Cod jika tidak diaktifkan
+        if (typeof aktifkan_login_qr !== "undefined") {
+          const loginQrButton = document.getElementById("qr");
+          if (aktifkan_login_qr === "N") {
+            loginQrButton.style.display = "none";
+          } else {
+            loginQrButton.style.display = "inline-block";
+          }
+        }
 
-  // Sembunyikan evoucherContainer jika tidak diaktifkan
-  if (typeof aktifkan_evoucher !== "undefined") {
-    const evoucherContainer = document.getElementById("evoucherContainer");
-    if (aktifkan_evoucher === "N") {
-      evoucherContainer.style.display = "none";
-    } else {
-      evoucherContainer.style.display = "block";
-      loadEvouchers();
-    }
-  }
+        // Sembunyikan evoucherContainer jika tidak diaktifkan
+        if (typeof aktifkan_evoucher !== "undefined") {
+          const evoucherContainer =
+            document.getElementById("evoucherContainer");
+          if (aktifkan_evoucher === "N") {
+            evoucherContainer.style.display = "none";
+          } else {
+            evoucherContainer.style.display = "block";
+            loadEvouchers();
+          }
+        }
 
-  // Sembunyikan memberContainer jika tidak diaktifkan
-  if (typeof aktifkan_daftar_membership !== "undefined") {
-    const memberContainer = document.getElementById("memberContainer");
-    if (aktifkan_daftar_membership === "N") {
-      memberContainer.style.display = "none";
-    } else {
-      memberContainer.style.display = "block";
-    }
-  }
+        // Sembunyikan memberContainer jika tidak diaktifkan
+        if (typeof aktifkan_daftar_membership !== "undefined") {
+          const memberContainer = document.getElementById("memberContainer");
+          if (aktifkan_daftar_membership === "N") {
+            memberContainer.style.display = "none";
+          } else {
+            memberContainer.style.display = "block";
+          }
+        }
 
-  const npwp_member_container = document.getElementById("npwp_member_container");
-  const npwp_billing_container = document.getElementById("npwp_billing_container");
-  if (aktifkan_npwp === "Y") {
-    npwp_member_container.style.display = "block";
-    npwp_billing_container.style.display = "block";
-  } else {
-    npwp_member_container.style.display = "none";
-    npwp_billing_container.style.display = "none";
-  }
+        const npwp_member_container = document.getElementById(
+          "npwp_member_container"
+        );
+        const npwp_billing_container = document.getElementById(
+          "npwp_billing_container"
+        );
+        if (aktifkan_npwp === "Y") {
+          npwp_member_container.style.display = "block";
+          npwp_billing_container.style.display = "block";
+        } else {
+          npwp_member_container.style.display = "none";
+          npwp_billing_container.style.display = "none";
+        }
 
-  const nik_member_container = document.getElementById("nik_member_container");
-  const nik_billing_container = document.getElementById("nik_billing_container");
-  if (aktifkan_nik === "Y") {
-    nik_member_container.style.display = "block";
-    nik_billing_container.style.display = "block";
-  } else {
-    nik_member_container.style.display = "none";
-    nik_billing_container.style.display = "none";
-  }
-});
+        const nik_member_container = document.getElementById(
+          "nik_member_container"
+        );
+        const nik_billing_container = document.getElementById(
+          "nik_billing_container"
+        );
+        if (aktifkan_nik === "Y") {
+          nik_member_container.style.display = "block";
+          nik_billing_container.style.display = "block";
+        } else {
+          nik_member_container.style.display = "none";
+          nik_billing_container.style.display = "none";
+        }
+      });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username');
-    const password = urlParams.get('password');
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const password = urlParams.get("password");
 
-    console.log({username, password});
-    if (username && password) {
+      console.log({ username, password });
+      if (username && password) {
         document.loginkv.usernamekv.value = username;
         document.loginkv.passwordkv.value = password;
         document.loginkv.submit();
-    }
-
-</script>
-
-</body>
+      }
+    </script>
+  </body>
 </html>
