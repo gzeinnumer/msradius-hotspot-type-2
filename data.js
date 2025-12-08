@@ -1,11 +1,11 @@
-base_url = "https://dev.msradius.com";
+base_url = "https://wifiroemah.msradius2.com";
 
-nama = "MSRadius Hotspot";
-alamat = "Jl. Tanah Merah IV Gang Kemangi No. 41";
-phone = "082212345678";
+nama = "WIFIROEMAH";
+alamat = "Gg.sastra no 256/87";
+phone = "081222505599";
 keterangan =
-  "Voucher Kemangi 41 bisa di beli di gang Kemangi No.41 atau gang Kluweh No.19 (Rosi)";
-copyright = "2025 by Chairul Rahman";
+  "Voucher WIFIROEMAH bisa di beli di agen terdekat anda";
+copyright = "2025 by WIFIROEMAH";
 masaaktif = "";
 trialtitle = "Coba Gratis";
 notifikasi = "Internet dalam perbaikan.";
