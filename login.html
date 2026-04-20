@@ -10,6 +10,14 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="d3.v3.min.js"></script>
 <script type="text/javascript" src="data.js"></script>
+<style>
+.btn-buy.disabled {
+  background: #ccc !important;
+  color: #666 !important;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+</style>
 
 </head>
 <body id="mainBody" class="bg">
@@ -447,11 +455,12 @@ document.getElementById("kodevoucher").click();
           <li><strong>Active Period:</strong> ${element.active_period}</li>
           <li><strong>Price:</strong> Rp. ${element.price_sell.toLocaleString()}</li>
         </ul>
-      </div>
-      <div class="voucher-action">
-        <a href="`+base_url+`/store?unique=${
-          element.id
-        }" class="btn-buy" target="_blank">Beli Sekarang</a>
+      </div><div class="voucher-action">
+        ${
+          element.on_sale == 1
+            ? `<a class="btn-buy disabled">Sold Out</a>`
+            : `<a href="${base_url}/store?unique=${element.id}" class="btn-buy" target="_blank">Beli Sekarang</a>`
+        }
       </div>
     </div>
   </div>

@@ -509,6 +509,13 @@ table.tpaketwifi tr:nth-child(even) {
     font-weight: bold;
 }
 
+.btn-buy.disabled {
+    background: #ccc !important;
+    color: #666 !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 .btn-buy:hover {
     background-color: var(--primary-hover);
 }
